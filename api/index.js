@@ -247,7 +247,6 @@ app.get('/api/auth/profile/detail', async (req, res) => {
 app.get('/api/users/:username', async (req, res) => {
   try {
     const { username } = req.params;
-    console.log('[UserProfile] Searching for user:', username);
     const db = await getDb();
     
     // 通过昵称、用户名或邮箱查找用户
@@ -256,10 +255,6 @@ app.get('/api/users/:username', async (req, res) => {
        WHERE username = $1 OR nickname = $1 OR email = $1`,
       [username]
     );
-    
-    console.log('[UserProfile] Query param:', username);
-    console.log('[UserProfile] Found users:', userResult.rows.length);
-    console.log('[UserProfile] User rows:', JSON.stringify(userResult.rows));
     
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: '用户不存在' });
@@ -275,7 +270,7 @@ app.get('/api/users/:username', async (req, res) => {
     
     // 获取该用户的文章列表（最新的 20 篇）
     const articlesResult = await db.query(
-      `SELECT id, title, excerpt, tags, created_at, view_count 
+      `SELECT id, title, excerpt, tags, created_at, views 
        FROM articles 
        WHERE author_name = $1 OR author_name = $2
        ORDER BY created_at DESC 
