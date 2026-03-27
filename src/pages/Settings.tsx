@@ -35,6 +35,7 @@ export default function Profile() {
   const [avatarModalVisible, setAvatarModalVisible] = useState(false)
   const [uploadLoading, setUploadLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
+  const [form] = Form.useForm()
   const [passwordForm] = Form.useForm()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
