@@ -21,7 +21,7 @@ interface UserArticle {
 interface UserProfile {
   id: number
   username: string
-  nickname: string
+  email?: string
   avatar: string
   role: string
   created_at: string
@@ -107,7 +107,7 @@ export default function Center() {
             <div style={{ flex: 1, color: '#fff' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
                 <Title level={2} style={{ color: '#fff', margin: 0 }}>
-                  {user.nickname || user.username}
+                  {user.username}
                 </Title>
                 <Tag style={{ 
                   background: 'rgba(255,255,255,0.2)', 

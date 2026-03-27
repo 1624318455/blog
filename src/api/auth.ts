@@ -37,13 +37,13 @@ export const authApi = {
   login: (username: string, password: string, autoLogin = false) =>
     api.post('/auth/login', { username, password, autoLogin }),
 
-  register: (username: string, password: string, nickname?: string) =>
-    api.post('/auth/register', { username, password, nickname }),
+  register: (username: string, password: string) =>
+    api.post('/auth/register', { username, password }),
 
   getMe: () =>
     api.get('/auth/me'),
 
-  updateProfile: (data: { nickname?: string; avatar?: string }) =>
+  updateProfile: (data: { avatar?: string }) =>
     api.put('/auth/profile', data),
 }
 
@@ -63,8 +63,8 @@ export const articleApi = {
 export interface User {
   id: number
   username: string
-  nickname: string
   avatar: string
+  email?: string
   created_at?: string
 }
 

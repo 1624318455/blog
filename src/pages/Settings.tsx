@@ -11,7 +11,6 @@ const { Title, Text } = Typography
 interface UserProfile {
   id: number
   username: string
-  nickname: string
   email: string
   avatar: string
   created_at: string
@@ -31,13 +30,11 @@ export default function Profile() {
   const navigate = useNavigate()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
-  const [editMode, setEditMode] = useState<'nickname' | null>(null)
   const [passwordModalVisible, setPasswordModalVisible] = useState(false)
   const [passwordLoading, setPasswordLoading] = useState(false)
   const [avatarModalVisible, setAvatarModalVisible] = useState(false)
   const [uploadLoading, setUploadLoading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
-  const [form] = Form.useForm()
   const [passwordForm] = Form.useForm()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -61,9 +58,6 @@ export default function Profile() {
       
       if (res.user) {
         setProfile(res.user)
-        form.setFieldsValue({
-          nickname: res.user.nickname,
-        })
       }
     } catch {
       message.error('获取用户信息失败')
@@ -326,7 +320,7 @@ export default function Profile() {
           </div>
           <div style={{ color: '#fff', flex: 1 }}>
             <Title level={2} style={{ color: '#fff', margin: 0, marginBottom: 12, fontSize: 28 }}>
-              {profile.nickname || profile.username}
+              {profile.username}
             </Title>
             <Space size="large" direction="vertical" style={{ width: '100%' }}>
               <div>
@@ -378,48 +372,10 @@ export default function Profile() {
         style={{ borderRadius: 16, marginBottom: 24 }}
       >
         <Form form={form} layout="vertical">
-          {/* 昵称 */}
-          <Form.Item label="昵称" name="nickname">
-            {editMode === 'nickname' ? (
-              <div style={{ display: 'flex', gap: 8 }}>
-                <Input 
-                  placeholder="输入新昵称" 
-                  maxLength={20}
-                  style={{ flex: 1 }}
-                />
-                <Button 
-                  type="primary" 
-                  onClick={() => {
-                    const nickname = form.getFieldValue('nickname')
-                    if (nickname?.trim()) {
-                      handleUpdateProfile('nickname', nickname.trim())
-                    } else {
-                      message.error('昵称不能为空')
-                    }
-                  }}
-                >
-                  保存
-                </Button>
-                <Button onClick={() => setEditMode(null)}>取消</Button>
-              </div>
-            ) : (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <Text style={{ fontSize: 16 }}>{profile.nickname || '未设置'}</Text>
-                <Button 
-                  type="link" 
-                  icon={<EditOutlined />}
-                  onClick={() => setEditMode('nickname')}
-                >
-                  修改
-                </Button>
-              </div>
-            )}
-          </Form.Item>
-
           {/* 用户名（不可修改） */}
           <Form.Item label="用户名">
             <Text style={{ fontSize: 16 }}>{profile.username}</Text>
-            <Text type="secondary" style={{ fontSize: 12, marginLeft: 8 }}>用户名不可修改</Text>
+            <Text type="secondary" style={{ fontSize: 12, marginLeft: 8 }}>用户名由邮箱自动生成</Text>
           </Form.Item>
 
           {/* 邮箱（不可修改） */}

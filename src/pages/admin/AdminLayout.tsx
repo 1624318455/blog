@@ -106,9 +106,9 @@ export default function AdminLayout() {
           <span style={{ fontSize: 16, fontWeight: 500 }}>管理后台</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Avatar size="small" style={{ background: '#1890ff' }}>
-              {user?.nickname?.[0] || user?.username?.[0] || 'A'}
+              {user?.username?.[0] || 'A'}
             </Avatar>
-            <span>{user?.nickname || user?.username}</span>
+            <span>{user?.username}</span>
           </div>
         </header>
 

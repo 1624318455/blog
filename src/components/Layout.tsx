@@ -60,11 +60,11 @@ export default function Layout() {
           style={{ background: '#1890ff' }}
           src={user?.avatar}
         >
-          {user?.nickname?.[0] || user?.username?.[0] || 'U'}
+          {user?.username?.[0] || 'U'}
         </Avatar>
         <div>
           <Text strong style={{ fontSize: 16, display: 'block' }}>
-            {user?.nickname || user?.username}
+            {user?.username}
           </Text>
           <Text type="secondary" style={{ fontSize: 12 }}>
             @{user?.username}
@@ -77,7 +77,7 @@ export default function Layout() {
         <div
           onClick={() => {
             setUserMenuOpen(false)
-            navigate(`/center/${encodeURIComponent(user?.nickname || user?.username || '')}`)
+            navigate(`/center/${encodeURIComponent(user?.username || '')}`)
           }}
           style={{
             padding: '12px 16px',
@@ -216,10 +216,10 @@ export default function Layout() {
                     style={{ background: '#1890ff' }}
                     src={user.avatar}
                   >
-                    {user.nickname?.[0] || user.username?.[0] || 'U'}
+                    {user.username?.[0] || 'U'}
                   </Avatar>
                   <span style={{ fontSize: 14, fontWeight: 500 }}>
-                    {user.nickname || user.username}
+                    {user.username}
                   </span>
                 </div>
               </Dropdown>

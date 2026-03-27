@@ -5,7 +5,6 @@ import { authApi } from '../api/auth'
 export interface AuthUser {
   id: number
   username: string
-  nickname: string
   avatar: string
   email?: string
   created_at?: string
