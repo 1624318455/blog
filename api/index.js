@@ -480,10 +480,12 @@ app.post('/api/email/send-code', async (req, res) => {
 
 app.post('/api/email/verify-and-register', async (req, res) => {
   try {
-    const { email, code, password } = req.body;
-    if (!email || !code || !password) return res.status(400).json({ error: '邮箱、验证码和密码不能为空' });
+    const { email, code, password, username } = req.body;
+    if (!email || !code || !password || !username) return res.status(400).json({ error: '所有字段都不能为空' });
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: '邮箱格式不正确' });
     if (password.length < 6) return res.status(400).json({ error: '密码至少6位' });
+    if (!/^[a-zA-Z0-9_]+$/.test(username)) return res.status(400).json({ error: '用户名只能包含字母、数字和下划线' });
+    if (username.length < 3) return res.status(400).json({ error: '用户名至少3位' });
 
     const db = await getDb();
     const result = await db.query(
@@ -494,17 +496,23 @@ app.post('/api/email/verify-and-register', async (req, res) => {
 
     await db.query('UPDATE email_codes SET used = true WHERE id = $1', [result.rows[0].id]);
 
-    const existing = await db.query('SELECT id FROM users WHERE email = $1', [email]);
-    if (existing.rows.length > 0) return res.status(409).json({ error: '该邮箱已被注册' });
+    // 检查邮箱是否已注册
+    const existingEmail = await db.query('SELECT id FROM users WHERE email = $1', [email]);
+    if (existingEmail.rows.length > 0) return res.status(409).json({ error: '该邮箱已被注册' });
+
+    // 检查用户名是否已存在
+    const existingUsername = await db.query('SELECT id FROM users WHERE username = $1', [username]);
+    if (existingUsername.rows.length > 0) return res.status(409).json({ error: '该用户名已被占用' });
 
     const hashed = await bcrypt.hash(password, 10);
-    // 用户名从邮箱提取（如 1624318455@qq.com -> 1624318455）
-    const finalUsername = email.split('@')[0];
 
-    const insertResult = await db.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id', [email, email, hashed]);
-    const token = jwt.sign({ id: insertResult.rows[0].id, username: email }, JWT_SECRET, { expiresIn: '7d' });
+    const insertResult = await db.query(
+      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id', 
+      [username, email, hashed]
+    );
+    const token = jwt.sign({ id: insertResult.rows[0].id, username }, JWT_SECRET, { expiresIn: '7d' });
 
-    res.json({ success: true, token, user: { id: insertResult.rows[0].id, username: finalUsername, email, avatar: '' } });
+    res.json({ success: true, token, user: { id: insertResult.rows[0].id, username, email, avatar: '' } });
   } catch (err) {
     console.error('注册错误:', err);
     res.status(500).json({ error: '服务器错误' });

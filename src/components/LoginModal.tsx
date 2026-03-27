@@ -97,14 +97,18 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
   }
 
   // 邮箱注册提交
-  const handleEmailRegister = async (values: { email: string; code: string; password: string; nickname?: string }) => {
+  const handleEmailRegister = async (values: { email: string; code: string; password: string; confirmPassword: string; username: string }) => {
+    if (values.password !== values.confirmPassword) {
+      message.error('两次输入的密码不一致')
+      return
+    }
     setLoading(true)
     try {
       const res: any = await api.post('/email/verify-and-register', {
         email: values.email,
         code: values.code,
         password: values.password,
-        nickname: values.nickname,
+        username: values.username,
       })
       loginWithEmail(res)
       onClose()
@@ -245,6 +249,23 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
 
             {sent && (
               <>
+                {/* 用户名 */}
+                <Form.Item
+                  name="username"
+                  label="用户名"
+                  rules={[
+                    { required: true, message: '请输入用户名' },
+                    { min: 3, message: '用户名至少3位' },
+                    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名只能包含字母、数字和下划线' },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined style={{ color: '#bfbfbf' }} />}
+                    placeholder="设置用户名（字母、数字、下划线）"
+                  />
+                </Form.Item>
+
+                {/* 密码 */}
                 <Form.Item
                   name="password"
                   label="设置密码"
@@ -259,10 +280,26 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
                   />
                 </Form.Item>
 
-                <Form.Item name="nickname" label="昵称（可选）">
-                  <Input
-                    prefix={<UserOutlined style={{ color: '#bfbfbf' }} />}
-                    placeholder="给自己起个昵称"
+                {/* 确认密码 */}
+                <Form.Item
+                  name="confirmPassword"
+                  label="确认密码"
+                  dependencies={['password']}
+                  rules={[
+                    { required: true, message: '请确认密码' },
+                    ({ getFieldValue }) => ({
+                      validator(_, value) {
+                        if (!value || getFieldValue('password') === value) {
+                          return Promise.resolve()
+                        }
+                        return Promise.reject(new Error('两次输入的密码不一致'))
+                      },
+                    }),
+                  ]}
+                >
+                  <Input.Password
+                    prefix={<LockOutlined style={{ color: '#bfbfbf' }} />}
+                    placeholder="再次输入密码"
                   />
                 </Form.Item>
 
