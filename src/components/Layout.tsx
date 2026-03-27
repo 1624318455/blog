@@ -1,5 +1,5 @@
-import { Outlet, Link, useLocation } from 'react-router-dom'
-import { Menu, Button, Dropdown, Avatar } from 'antd'
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
+import { Menu, Button, Dropdown, Avatar, Card, Typography, Space } from 'antd'
 import {
   HomeOutlined,
   FolderOutlined,
@@ -7,10 +7,14 @@ import {
   MenuOutlined,
   LogoutOutlined,
   LoginOutlined,
+  SettingOutlined,
+  HomeFilled,
 } from '@ant-design/icons'
 import { useState } from 'react'
 import LoginModal from './LoginModal'
 import { useAuth } from '../hooks/useAuth'
+
+const { Text } = Typography
 
 const menuItems = [
   { key: '/', label: <Link to="/">首页</Link>, icon: <HomeOutlined /> },
@@ -21,27 +25,116 @@ const menuItems = [
 
 export default function Layout() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { user, logout } = useAuth()
 
   const selectedKey = menuItems.find((item) =>
     location.pathname === item.key || location.pathname.startsWith(item.key + '/')
   )?.key || '/'
 
-  const userMenuItems = [
-    {
-      key: 'profile',
-      label: <Link to="/profile">个人中心</Link>,
-    },
-    { type: 'divider' as const },
-    {
-      key: 'logout',
-      label: '退出登录',
-      icon: <LogoutOutlined />,
-      onClick: logout,
-    },
-  ]
+  // 用户下拉菜单内容（掘金风格）
+  const userDropdownContent = (
+    <Card
+      style={{
+        width: 240,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        borderRadius: 8,
+      }}
+      styles={{ body: { padding: 0 } }}
+    >
+      {/* 用户信息头部 */}
+      <div
+        style={{
+          padding: '16px',
+          borderBottom: '1px solid #f0f0f0',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 12,
+        }}
+      >
+        <Avatar
+          size={48}
+          style={{ background: '#1890ff' }}
+          src={user?.avatar}
+        >
+          {user?.nickname?.[0] || user?.username?.[0] || 'U'}
+        </Avatar>
+        <div>
+          <Text strong style={{ fontSize: 16, display: 'block' }}>
+            {user?.nickname || user?.username}
+          </Text>
+          <Text type="secondary" style={{ fontSize: 12 }}>
+            @{user?.username}
+          </Text>
+        </div>
+      </div>
+
+      {/* 菜单项 */}
+      <div style={{ padding: '8px 0' }}>
+        <div
+          onClick={() => {
+            setUserMenuOpen(false)
+            navigate(`/center/${encodeURIComponent(user?.nickname || user?.username || '')}`)
+          }}
+          style={{
+            padding: '12px 16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+        >
+          <HomeFilled style={{ fontSize: 16, color: '#666' }} />
+          <span>我的主页</span>
+        </div>
+        <div
+          onClick={() => {
+            setUserMenuOpen(false)
+            navigate('/settings')
+          }}
+          style={{
+            padding: '12px 16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#f5f5f5'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+        >
+          <SettingOutlined style={{ fontSize: 16, color: '#666' }} />
+          <span>我的设置</span>
+        </div>
+        <div
+          onClick={() => {
+            setUserMenuOpen(false)
+            logout()
+          }}
+          style={{
+            padding: '12px 16px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            color: '#ff4d4f',
+            transition: 'background 0.2s',
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.background = '#fff1f0'}
+          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+        >
+          <LogoutOutlined style={{ fontSize: 16 }} />
+          <span>退出登录</span>
+        </div>
+      </div>
+    </Card>
+  )
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -98,7 +191,13 @@ export default function Layout() {
 
             {/* 登录/用户 */}
             {user ? (
-              <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
+              <Dropdown
+                dropdownRender={() => userDropdownContent}
+                trigger={['click']}
+                open={userMenuOpen}
+                onOpenChange={setUserMenuOpen}
+                placement="bottomRight"
+              >
                 <div
                   style={{
                     display: 'flex',

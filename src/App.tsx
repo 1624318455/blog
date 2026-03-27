@@ -7,6 +7,8 @@ import ArticleDetail from './pages/ArticleDetail'
 import Category from './pages/Category'
 import About from './pages/About'
 import Profile from './pages/Profile'
+import Center from './pages/Center'
+import Settings from './pages/Settings'
 import UserProfile from './pages/UserProfile'
 import NotFound from './pages/NotFound'
 import AdminLayout from './pages/admin/AdminLayout'
@@ -36,6 +38,8 @@ function App() {
                 <Route path="category/:tag" element={<Category />} />
                 <Route path="about" element={<About />} />
                 <Route path="profile" element={<Profile />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="center/:username" element={<Center />} />
                 <Route path="user/:username" element={<UserProfile />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
