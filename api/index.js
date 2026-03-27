@@ -257,7 +257,9 @@ app.get('/api/users/:username', async (req, res) => {
       [username]
     );
     
+    console.log('[UserProfile] Query param:', username);
     console.log('[UserProfile] Found users:', userResult.rows.length);
+    console.log('[UserProfile] User rows:', JSON.stringify(userResult.rows));
     
     if (userResult.rows.length === 0) {
       return res.status(404).json({ error: '用户不存在' });
