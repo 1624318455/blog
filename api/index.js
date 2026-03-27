@@ -250,10 +250,6 @@ app.get('/api/users/:username', async (req, res) => {
     console.log('[UserProfile] Searching for user:', username);
     const db = await getDb();
     
-    // 先查询所有用户，看看数据结构
-    const allUsers = await db.query('SELECT id, username, nickname, email FROM users LIMIT 10');
-    console.log('[UserProfile] All users in DB:', JSON.stringify(allUsers.rows));
-    
     // 通过昵称、用户名或邮箱查找用户
     const userResult = await db.query(
       `SELECT id, username, nickname, avatar, role, created_at FROM users 
