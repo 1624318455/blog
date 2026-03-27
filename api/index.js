@@ -131,20 +131,21 @@ app.post('/api/auth/login', async (req, res) => {
     if (!username || !password) return res.status(400).json({ error: '用户名和密码不能为空' });
 
     const db = await getDb();
-    const result = await db.query('SELECT * FROM users WHERE username = $1', [username]);
+    // 支持用邮箱或用户名登录
+    const result = await db.query(
+      'SELECT * FROM users WHERE username = $1 OR email = $1', 
+      [username]
+    );
     if (result.rows.length === 0) return res.status(401).json({ error: '用户名或密码错误' });
 
     const user = result.rows[0];
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) return res.status(401).json({ error: '用户名或密码错误' });
 
-    // 从邮箱提取用户名（如 1624318455@qq.com -> 1624318455）
-    const displayUsername = user.email ? user.email.split('@')[0] : user.username;
-
     // 自动登录 30 天，否则 7 天
     const expiresIn = autoLogin ? '30d' : '7d';
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn });
-    res.json({ success: true, token, user: { id: user.id, username: displayUsername, avatar: user.avatar, email: user.email, role: user.role || 'user' } });
+    res.json({ success: true, token, user: { id: user.id, username: user.username, avatar: user.avatar, email: user.email, role: user.role || 'user' } });
   } catch (err) {
     console.error('登录错误:', err);
     res.status(500).json({ error: '服务器错误' });
@@ -158,14 +159,10 @@ app.get('/api/auth/me', async (req, res) => {
 
     const decoded = jwt.verify(auth.slice(7), JWT_SECRET);
     const db = await getDb();
-    const result = await db.query('SELECT id, username, email, avatar, role, created_at FROM users WHERE id = $1');
+    const result = await db.query('SELECT id, username, email, avatar, role, created_at FROM users WHERE id = $1', [decoded.id]);
     if (result.rows.length === 0) return res.status(404).json({ error: '用户不存在' });
     
-    const user = result.rows[0];
-    // 从邮箱提取用户名显示
-    const displayUsername = user.email ? user.email.split('@')[0] : user.username;
-    
-    res.json({ user: { ...user, username: displayUsername, role: user.role || 'user' } });
+    res.json({ user: { ...result.rows[0], role: result.rows[0].role || 'user' } });
   } catch (err) {
     if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') return res.status(401).json({ error: '登录已过期，请重新登录' });
     res.status(500).json({ error: '获取用户信息失败，请稍后重试' });
@@ -229,18 +226,15 @@ app.get('/api/auth/profile/detail', async (req, res) => {
     if (userResult.rows.length === 0) return res.status(404).json({ error: '用户不存在' });
     
     const user = userResult.rows[0];
-    // 从邮箱提取用户名显示
-    const displayUsername = user.email ? user.email.split('@')[0] : user.username;
     
-    // 统计文章数（使用 email 提取的用户名）
-    const articleCount = await db.query('SELECT COUNT(*) as count FROM articles WHERE author_name = $1', [displayUsername]);
+    // 统计文章数
+    const articleCount = await db.query('SELECT COUNT(*) as count FROM articles WHERE author_name = $1', [user.username]);
     // 统计评论数
     const commentCount = await db.query('SELECT COUNT(*) as count FROM comments WHERE user_id = $1', [user.id]);
     
     res.json({
       user: {
         ...user,
-        username: displayUsername,
         role: user.role || 'user',
         article_count: parseInt(articleCount.rows[0].count) || 0,
         comment_count: parseInt(commentCount.rows[0].count) || 0,
@@ -260,11 +254,11 @@ app.get('/api/users/:username', async (req, res) => {
     const { username } = req.params;
     const db = await getDb();
     
-    // 通过邮箱用户名查找用户（如 memeflyfly 能匹配 1624318455@qq.com）
+    // 通过用户名查找用户
     const userResult = await db.query(
       `SELECT id, username, email, avatar, role, created_at FROM users 
-       WHERE email LIKE $1`,
-      [`%@${username}`]
+       WHERE username = $1`,
+      [username]
     );
     
     if (userResult.rows.length === 0) {
@@ -273,7 +267,7 @@ app.get('/api/users/:username', async (req, res) => {
     
     const user = userResult.rows[0];
     
-    // 统计该用户的文章数（使用 URL 参数查询）
+    // 统计该用户的文章数
     const articleCount = await db.query(
       `SELECT COUNT(*) as count FROM articles WHERE author_name = $1`,
       [username]
@@ -292,7 +286,7 @@ app.get('/api/users/:username', async (req, res) => {
     res.json({
       user: {
         id: user.id,
-        username: username,
+        username: user.username,
         email: user.email,
         avatar: user.avatar,
         role: user.role || 'user',
@@ -593,11 +587,10 @@ app.post('/api/admin/articles', requireAdmin, async (req, res) => {
     if (!title || !content) return res.status(400).json({ error: '标题和内容不能为空' });
 
     const db = await getDb();
-    // 从邮箱提取用户名作为作者名
-    const authorName = req.user.email ? req.user.email.split('@')[0] : req.user.username;
+    // 使用数据库中存储的用户名
     const result = await db.query(
       `INSERT INTO articles (title, content, excerpt, author_name, tags) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-      [title, content, excerpt || content.slice(0, 200), authorName, JSON.stringify(tags || [])]
+      [title, content, excerpt || content.slice(0, 200), req.user.username, JSON.stringify(tags || [])]
     );
     res.json({ success: true, id: result.rows[0].id });
   } catch (err) {
