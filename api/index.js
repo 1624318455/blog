@@ -290,6 +290,7 @@ app.get('/api/users/:username', async (req, res) => {
       },
       articles: articlesResult.rows.map(row => ({
         ...row,
+        view_count: row.views,
         tags: typeof row.tags === 'string' ? JSON.parse(row.tags) : (row.tags || [])
       }))
     });
