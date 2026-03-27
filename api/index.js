@@ -260,11 +260,11 @@ app.get('/api/users/:username', async (req, res) => {
     const { username } = req.params;
     const db = await getDb();
     
-    // 通过用户名或邮箱查找用户
+    // 通过邮箱用户名查找用户（如 memeflyfly 能匹配 1624318455@qq.com）
     const userResult = await db.query(
       `SELECT id, username, email, avatar, role, created_at FROM users 
-       WHERE email LIKE $1 OR username LIKE $1`,
-      [`%${username}%`]
+       WHERE email LIKE $1`,
+      [`%@${username}`]
     );
     
     if (userResult.rows.length === 0) {
@@ -272,13 +272,11 @@ app.get('/api/users/:username', async (req, res) => {
     }
     
     const user = userResult.rows[0];
-    // 从邮箱提取用户名显示
-    const displayUsername = user.email ? user.email.split('@')[0] : user.username;
     
-    // 统计该用户的文章数
+    // 统计该用户的文章数（使用 URL 参数查询）
     const articleCount = await db.query(
       `SELECT COUNT(*) as count FROM articles WHERE author_name = $1`,
-      [displayUsername]
+      [username]
     );
     
     // 获取该用户的文章列表（最新的 20 篇）
@@ -288,13 +286,13 @@ app.get('/api/users/:username', async (req, res) => {
        WHERE author_name = $1
        ORDER BY created_at DESC 
        LIMIT 20`,
-      [displayUsername]
+      [username]
     );
     
     res.json({
       user: {
         id: user.id,
-        username: displayUsername,
+        username: username,
         email: user.email,
         avatar: user.avatar,
         role: user.role || 'user',
