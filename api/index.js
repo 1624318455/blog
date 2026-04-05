@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
 
 const app = express();
-const JWT_SECRET = process.env.JWT_SECRET || 'blog-secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'blog-jwt-secret-key-2024';
 
 // Database pool - 使用 Transaction 模式（端口 6543）
 let pool = null;
