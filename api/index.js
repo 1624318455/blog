@@ -573,7 +573,7 @@ async function requireAdmin(req, res, next) {
     debug.decoded = jwt.verify(token, JWT_SECRET);
     
     const db = await getDb();
-    const result = await db.query('SELECT id, username, nickname, role FROM users WHERE id = $1', [debug.decoded.id]);
+    const result = await db.query('SELECT id, username, role FROM users WHERE id = $1', [debug.decoded.id]);
     if (result.rows.length === 0) {
       return res.status(401).json({ error: '用户不存在', debug });
     }
