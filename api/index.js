@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import { Resend } from 'resend';
 
 const app = express();
-const JWT_SECRET = process.env.JWT_SECRET || 'blog-secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'blog-jwt-secret-key-2024';
 
 // Database pool - 使用 Transaction 模式（端口 6543）
 let pool = null;
@@ -544,7 +544,7 @@ async function requireAdmin(req, res, next) {
     if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: '未登录' });
     const decoded = jwt.verify(auth.slice(7), JWT_SECRET);
     const db = await getDb();
-    const result = await db.query('SELECT id, username, nickname, role FROM users WHERE id = $1', [decoded.id]);
+    const result = await db.query('SELECT id, username, role FROM users WHERE id = $1', [decoded.id]);
     if (result.rows.length === 0) return res.status(401).json({ error: '用户不存在' });
     if (result.rows[0].role !== 'admin') return res.status(403).json({ error: '无权限' });
     req.user = result.rows[0];
