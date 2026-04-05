@@ -26,6 +26,13 @@ async function getDb() {
   return pool;
 }
 
+app.get('/api/debug', (req, res) => {
+  res.json({ 
+    JWT_SECRET: JWT_SECRET,
+    env: process.env.JWT_SECRET ? 'from env' : 'from default'
+  });
+});
+
 // 健康检查
 app.get('/api/health', async (req, res) => {
   try {
