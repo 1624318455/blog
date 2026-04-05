@@ -546,33 +546,45 @@ async function requireAuth(req, res, next) {
 // ============ ADMIN MIDDLEWARE ============
 
 async function requireAdmin(req, res, next) {
-  console.log('[requireAdmin] JWT_SECRET:', JWT_SECRET);
+  const debug = {
+    jwtSecret: JWT_SECRET,
+    tokenInfo: null,
+    decoded: null,
+    error: null
+  };
+  
   try {
     const auth = req.headers.authorization;
-    if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: '未登录' });
+    if (!auth || !auth.startsWith('Bearer ')) {
+      return res.status(401).json({ error: '未登录', debug });
+    }
     const token = auth.slice(7);
-    console.log('[requireAdmin] Token:', token.slice(0, 30), '...');
-    console.log('[requireAdmin] Expected secret:', JWT_SECRET);
     
-    // Decode without verification to see payload
-    const parts = token.split('.');
-    const payload = JSON.parse(atob(parts[1]));
-    console.log('[requireAdmin] Token payload:', payload);
+    // Decode without verification
+    try {
+      const parts = token.split('.');
+      debug.tokenInfo = JSON.parse(atob(parts[1]));
+    } catch (e) {
+      debug.error = 'Invalid token format';
+      return res.status(401).json({ error: 'Token 格式无效', debug });
+    }
     
-    // Now verify
-    const decoded = jwt.verify(token, JWT_SECRET);
-    console.log('[requireAdmin] Decoded:', decoded);
+    // Verify
+    debug.decoded = jwt.verify(token, JWT_SECRET);
     
     const db = await getDb();
-    const result = await db.query('SELECT id, username, nickname, role FROM users WHERE id = $1', [decoded.id]);
-    if (result.rows.length === 0) return res.status(401).json({ error: '用户不存在' });
-    console.log('[requireAdmin] User role:', result.rows[0].role);
-    if (result.rows[0].role !== 'admin') return res.status(403).json({ error: '无权限' });
+    const result = await db.query('SELECT id, username, nickname, role FROM users WHERE id = $1', [debug.decoded.id]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: '用户不存在', debug });
+    }
+    if (result.rows[0].role !== 'admin') {
+      return res.status(403).json({ error: '无权限', debug });
+    }
     req.user = result.rows[0];
     next();
   } catch (err) {
-    console.error('[requireAdmin] Error:', err.message, err.stack);
-    return res.status(401).json({ error: 'Token 无效或已过期' });
+    debug.error = err.message;
+    return res.status(401).json({ error: 'Token 无效或已过期', debug });
   }
 }
 
