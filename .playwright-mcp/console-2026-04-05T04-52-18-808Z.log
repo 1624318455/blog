@@ -1,0 +1,14 @@
+[     724ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://blog-phi-five-62.vercel.app/api/auth/me:0
+[    1094ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://blog-phi-five-62.vercel.app/api/articles?page=1&pageSize=9:0
+[    1095ms] [ERROR] 获取文章失败: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/articles</pre>
+</body>
+</html>
+ @ https://blog-phi-five-62.vercel.app/assets/index-C0WdlAWw.js:454
+[   20842ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://blog-phi-five-62.vercel.app/api/auth/login:0

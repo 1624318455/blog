@@ -1,0 +1,3 @@
+[   28124ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://blog-phi-five-62.vercel.app/api/auth/me:0
+[   28437ms] [ERROR] Failed to load resource: the server responded with a status of 401 () @ https://blog-phi-five-62.vercel.app/api/auth/me:0
+[   86585ms] [ERROR] Failed to load resource: net::ERR_TIMED_OUT @ https://blog-phi-five-62.vercel.app/api/auth/login:0

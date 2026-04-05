@@ -1,0 +1,105 @@
+- generic [ref=e1]:
+  - generic [ref=e4]:
+    - banner [ref=e5]:
+      - generic [ref=e6]:
+        - link "✍️ 我的博客" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]: ✍️
+          - text: 我的博客
+        - generic [ref=e9]:
+          - menu [ref=e11]:
+            - menuitem "home 首页" [ref=e12] [cursor=pointer]:
+              - img "home" [ref=e13]:
+                - img [ref=e14]
+              - link "首页" [ref=e17]:
+                - /url: /
+            - menuitem "folder React" [ref=e18] [cursor=pointer]:
+              - img "folder" [ref=e19]:
+                - img [ref=e20]
+              - link "React" [ref=e23]:
+                - /url: /category/react
+            - menuitem "folder TypeScript" [ref=e24] [cursor=pointer]:
+              - img "folder" [ref=e25]:
+                - img [ref=e26]
+              - link "TypeScript" [ref=e29]:
+                - /url: /category/typescript
+            - menuitem "user 关于" [ref=e30] [cursor=pointer]:
+              - img "user" [ref=e31]:
+                - img [ref=e32]
+              - link "关于" [ref=e35]:
+                - /url: /about
+            - menuitem [disabled]:
+              - img:
+                - img
+          - button "login 登录" [ref=e36] [cursor=pointer]:
+            - img "login" [ref=e38]:
+              - img [ref=e39]
+            - generic [ref=e41]: 登录
+    - main [ref=e42]:
+      - generic [ref=e43]:
+        - generic [ref=e44]:
+          - heading "欢迎来到我的博客" [level=1] [ref=e45]
+          - generic [ref=e46]: 分享前端技术、项目经验与生活感悟
+          - generic [ref=e47]:
+            - img "search" [ref=e49]:
+              - img [ref=e50]
+            - textbox "搜索文章..." [ref=e52]
+        - generic [ref=e148]:
+          - generic [ref=e149]: 😢
+          - heading "加载失败了" [level=4] [ref=e150]
+          - generic [ref=e151]: 网络可能不太稳定，请稍后重试
+          - button "点击重试" [ref=e152] [cursor=pointer]
+    - contentinfo [ref=e145]:
+      - generic [ref=e146]: © 2024 我的博客 · 用 ❤️ 和代码构建
+      - generic [ref=e147]: Built with React + Vite + Ant Design · 后端 Express + MySQL
+  - generic [ref=e153]:
+    - dialog:
+      - generic [ref=e154]:
+        - button "Close" [ref=e155] [cursor=pointer]:
+          - generic "Close" [ref=e156]:
+            - img "close" [ref=e157]:
+              - img [ref=e158]
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - generic [ref=e162]: 🔐
+            - heading "登录账号" [level=2] [ref=e163]
+            - paragraph [ref=e164]: 欢迎回来
+          - generic [ref=e165]:
+            - tablist [ref=e166]:
+              - generic [ref=e168]:
+                - tab "登录" [selected] [ref=e170] [cursor=pointer]
+                - tab "注册" [ref=e172] [cursor=pointer]
+                - tab "📧 邮箱注册" [ref=e174] [cursor=pointer]
+            - generic:
+              - generic:
+                - tabpanel "登录"
+          - generic [ref=e175]:
+            - generic [ref=e177]:
+              - generic "用户名 / 邮箱" [ref=e179]
+              - generic [ref=e183]:
+                - img "user" [ref=e185]:
+                  - img [ref=e186]
+                - textbox "用户名 / 邮箱" [ref=e188]:
+                  - /placeholder: 用户名或邮箱
+                  - text: memeflyfly
+            - generic [ref=e190]:
+              - generic "密码" [ref=e192]
+              - generic [ref=e196]:
+                - img "lock" [ref=e198]:
+                  - img [ref=e199]
+                - textbox "密码" [ref=e201]: Memeflyfly123!
+                - img "eye-invisible" [ref=e203] [cursor=pointer]:
+                  - img [ref=e204]
+            - generic [ref=e207]:
+              - generic [ref=e208] [cursor=pointer]:
+                - checkbox "记住密码" [ref=e210]
+                - generic [ref=e212]: 记住密码
+              - generic [ref=e213] [cursor=pointer]:
+                - checkbox "自动登录（30天）" [ref=e215]
+                - generic [ref=e217]: 自动登录（30天）
+            - button "登 录" [active] [ref=e223] [cursor=pointer]:
+              - generic [ref=e224]: 登 录
+  - generic [ref=e226]:
+    - img "close-circle" [ref=e227]:
+      - img [ref=e228]
+    - generic [ref=e230]: 登录失败
