@@ -145,7 +145,7 @@ app.post('/api/auth/login', async (req, res) => {
     // 自动登录 30 天，否则 7 天
     const expiresIn = autoLogin ? '30d' : '7d';
     const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn });
-    res.json({ success: true, token, user: { id: user.id, username: user.username, avatar: user.avatar, email: user.email, role: user.role || 'user' } });
+    res.json({ success: true, token, user: { id: user.id, username: user.username, nickname: user.nickname || user.username, avatar: user.avatar, email: user.email, role: user.role || 'user' } });
   } catch (err) {
     console.error('登录错误:', err);
     res.status(500).json({ error: '服务器错误' });
