@@ -1,0 +1,1 @@
+- generic [ref=e2]: "{\"status\":\"ok\",\"timestamp\":\"2026-04-05T04:27:12.492Z\",\"env\":{\"DB_HOST\":\"✓\",\"DB_USER\":\"✓\",\"DB_PASSWORD\":\"✓\",\"DB_NAME\":\"✓\",\"JWT_SECRET\":\"✓\"}}"

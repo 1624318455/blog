@@ -551,9 +551,18 @@ async function requireAdmin(req, res, next) {
     const auth = req.headers.authorization;
     if (!auth || !auth.startsWith('Bearer ')) return res.status(401).json({ error: '未登录' });
     const token = auth.slice(7);
-    console.log('[requireAdmin] Token header:', token.slice(0, 50));
+    console.log('[requireAdmin] Token:', token.slice(0, 30), '...');
+    console.log('[requireAdmin] Expected secret:', JWT_SECRET);
+    
+    // Decode without verification to see payload
+    const parts = token.split('.');
+    const payload = JSON.parse(atob(parts[1]));
+    console.log('[requireAdmin] Token payload:', payload);
+    
+    // Now verify
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log('[requireAdmin] Decoded:', decoded);
+    
     const db = await getDb();
     const result = await db.query('SELECT id, username, nickname, role FROM users WHERE id = $1', [decoded.id]);
     if (result.rows.length === 0) return res.status(401).json({ error: '用户不存在' });
@@ -562,7 +571,7 @@ async function requireAdmin(req, res, next) {
     req.user = result.rows[0];
     next();
   } catch (err) {
-    console.error('[requireAdmin] Error:', err.message);
+    console.error('[requireAdmin] Error:', err.message, err.stack);
     return res.status(401).json({ error: 'Token 无效或已过期' });
   }
 }
