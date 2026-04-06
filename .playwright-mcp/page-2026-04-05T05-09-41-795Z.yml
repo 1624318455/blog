@@ -1,0 +1,210 @@
+- generic [ref=e4]:
+  - complementary [ref=e5]:
+    - link "📝 博客后台" [ref=e7] [cursor=pointer]:
+      - /url: /
+      - heading "📝 博客后台" [level=1] [ref=e8]
+    - menu [ref=e9]:
+      - menuitem "dashboard 仪表盘" [ref=e10] [cursor=pointer]:
+        - img "dashboard" [ref=e11]:
+          - img [ref=e12]
+        - link "仪表盘" [ref=e15]:
+          - /url: /admin
+      - menuitem "file-text 文章管理" [ref=e16] [cursor=pointer]:
+        - img "file-text" [ref=e17]:
+          - img [ref=e18]
+        - link "文章管理" [ref=e21]:
+          - /url: /admin/articles
+      - menuitem "plus 发布文章" [ref=e22] [cursor=pointer]:
+        - img "plus" [ref=e23]:
+          - img [ref=e24]
+        - link "发布文章" [ref=e28]:
+          - /url: /admin/articles/new
+    - button "logout 退出登录" [ref=e30] [cursor=pointer]:
+      - img "logout" [ref=e32]:
+        - img [ref=e33]
+      - generic [ref=e35]: 退出登录
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]: 管理后台
+      - generic [ref=e39]:
+        - generic [ref=e41]: m
+        - generic [ref=e42]: memeflyfly
+    - generic [ref=e44]:
+      - generic [ref=e46]:
+        - generic [ref=e47]: 文章管理
+        - link "发布文章" [ref=e49] [cursor=pointer]:
+          - /url: /admin/articles/new
+          - button "发布文章" [ref=e50]:
+            - generic [ref=e51]: 发布文章
+      - generic [ref=e52]:
+        - generic [ref=e55]:
+          - searchbox "搜索文章标题" [ref=e57]
+          - button "search 搜索" [ref=e60] [cursor=pointer]:
+            - generic [ref=e61]:
+              - img "search" [ref=e62]:
+                - img [ref=e63]
+              - text: 搜索
+        - generic [ref=e67]:
+          - table [ref=e71]:
+            - rowgroup [ref=e80]:
+              - row "ID 标题 作者 标签 阅读 发布时间 操作" [ref=e81]:
+                - columnheader "ID" [ref=e82]
+                - columnheader "标题" [ref=e83]
+                - columnheader "作者" [ref=e84]
+                - columnheader "标签" [ref=e85]
+                - columnheader "阅读" [ref=e86] [cursor=pointer]:
+                  - generic [ref=e87]:
+                    - generic [ref=e88]: 阅读
+                    - generic [ref=e90]:
+                      - img [ref=e91]:
+                        - img [ref=e92]
+                      - img [ref=e94]:
+                        - img [ref=e95]
+                - columnheader "发布时间" [ref=e97]
+                - columnheader "操作" [ref=e98]
+            - rowgroup [ref=e99]:
+              - generic:
+                - generic: 阅读
+                - generic:
+                  - generic:
+                    - img:
+                      - img
+                    - img:
+                      - img
+              - row "6 AI代码提交后vercel自动部署环节报错的处理 memeflyfly openclaw, AI 17 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e100]:
+                - cell "6" [ref=e101]
+                - cell "AI代码提交后vercel自动部署环节报错的处理" [ref=e102]
+                - cell "memeflyfly" [ref=e103]
+                - cell "openclaw, AI" [ref=e104]
+                - cell "17" [ref=e105]
+                - cell "2026-03-26" [ref=e106]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e107]:
+                  - generic [ref=e108]:
+                    - button "eye 查看" [ref=e110] [cursor=pointer]:
+                      - img "eye" [ref=e112]:
+                        - img [ref=e113]
+                      - generic [ref=e115]: 查看
+                    - button "edit 编辑" [ref=e117] [cursor=pointer]:
+                      - img "edit" [ref=e119]:
+                        - img [ref=e120]
+                      - generic [ref=e122]: 编辑
+                    - button "delete 删除" [ref=e124] [cursor=pointer]:
+                      - img "delete" [ref=e126]:
+                        - img [ref=e127]
+                      - generic [ref=e129]: 删除
+              - row "5 测试markdown实时预览功能 memeflyfly test, markdown 1 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e130]:
+                - cell "5" [ref=e131]
+                - cell "测试markdown实时预览功能" [ref=e132]
+                - cell "memeflyfly" [ref=e133]
+                - cell "test, markdown" [ref=e134]
+                - cell "1" [ref=e135]
+                - cell "2026-03-26" [ref=e136]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e137]:
+                  - generic [ref=e138]:
+                    - button "eye 查看" [ref=e140] [cursor=pointer]:
+                      - img "eye" [ref=e142]:
+                        - img [ref=e143]
+                      - generic [ref=e145]: 查看
+                    - button "edit 编辑" [ref=e147] [cursor=pointer]:
+                      - img "edit" [ref=e149]:
+                        - img [ref=e150]
+                      - generic [ref=e152]: 编辑
+                    - button "delete 删除" [ref=e154] [cursor=pointer]:
+                      - img "delete" [ref=e156]:
+                        - img [ref=e157]
+                      - generic [ref=e159]: 删除
+              - row "4 测试自动保存功能 memeflyfly test, autosave 4 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e160]:
+                - cell "4" [ref=e161]
+                - cell "测试自动保存功能" [ref=e162]
+                - cell "memeflyfly" [ref=e163]
+                - cell "test, autosave" [ref=e164]
+                - cell "4" [ref=e165]
+                - cell "2026-03-26" [ref=e166]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e167]:
+                  - generic [ref=e168]:
+                    - button "eye 查看" [ref=e170] [cursor=pointer]:
+                      - img "eye" [ref=e172]:
+                        - img [ref=e173]
+                      - generic [ref=e175]: 查看
+                    - button "edit 编辑" [ref=e177] [cursor=pointer]:
+                      - img "edit" [ref=e179]:
+                        - img [ref=e180]
+                      - generic [ref=e182]: 编辑
+                    - button "delete 删除" [ref=e184] [cursor=pointer]:
+                      - img "delete" [ref=e186]:
+                        - img [ref=e187]
+                      - generic [ref=e189]: 删除
+              - row "3 Vite 5 完全指南 阿杰 Vite, 前端 3568 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e190]:
+                - cell "3" [ref=e191]
+                - cell "Vite 5 完全指南" [ref=e192]
+                - cell "阿杰" [ref=e193]
+                - cell "Vite, 前端" [ref=e194]
+                - cell "3568" [ref=e195]
+                - cell "2026-03-26" [ref=e196]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e197]:
+                  - generic [ref=e198]:
+                    - button "eye 查看" [ref=e200] [cursor=pointer]:
+                      - img "eye" [ref=e202]:
+                        - img [ref=e203]
+                      - generic [ref=e205]: 查看
+                    - button "edit 编辑" [ref=e207] [cursor=pointer]:
+                      - img "edit" [ref=e209]:
+                        - img [ref=e210]
+                      - generic [ref=e212]: 编辑
+                    - button "delete 删除" [ref=e214] [cursor=pointer]:
+                      - img "delete" [ref=e216]:
+                        - img [ref=e217]
+                      - generic [ref=e219]: 删除
+              - row "1 React 18 新特性深度解析 小明 React, 前端 2855 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e220]:
+                - cell "1" [ref=e221]
+                - cell "React 18 新特性深度解析" [ref=e222]
+                - cell "小明" [ref=e223]
+                - cell "React, 前端" [ref=e224]
+                - cell "2855" [ref=e225]
+                - cell "2026-03-26" [ref=e226]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e227]:
+                  - generic [ref=e228]:
+                    - button "eye 查看" [ref=e230] [cursor=pointer]:
+                      - img "eye" [ref=e232]:
+                        - img [ref=e233]
+                      - generic [ref=e235]: 查看
+                    - button "edit 编辑" [ref=e237] [cursor=pointer]:
+                      - img "edit" [ref=e239]:
+                        - img [ref=e240]
+                      - generic [ref=e242]: 编辑
+                    - button "delete 删除" [ref=e244] [cursor=pointer]:
+                      - img "delete" [ref=e246]:
+                        - img [ref=e247]
+                      - generic [ref=e249]: 删除
+              - row "2 TypeScript 5.0 实用技巧分享 小红 TypeScript, 前端 1935 2026-03-26 eye 查看 edit 编辑 delete 删除" [ref=e250]:
+                - cell "2" [ref=e251]
+                - cell "TypeScript 5.0 实用技巧分享" [ref=e252]
+                - cell "小红" [ref=e253]
+                - cell "TypeScript, 前端" [ref=e254]
+                - cell "1935" [ref=e255]
+                - cell "2026-03-26" [ref=e256]
+                - cell "eye 查看 edit 编辑 delete 删除" [ref=e257]:
+                  - generic [ref=e258]:
+                    - button "eye 查看" [ref=e260] [cursor=pointer]:
+                      - img "eye" [ref=e262]:
+                        - img [ref=e263]
+                      - generic [ref=e265]: 查看
+                    - button "edit 编辑" [ref=e267] [cursor=pointer]:
+                      - img "edit" [ref=e269]:
+                        - img [ref=e270]
+                      - generic [ref=e272]: 编辑
+                    - button "delete 删除" [ref=e274] [cursor=pointer]:
+                      - img "delete" [ref=e276]:
+                        - img [ref=e277]
+                      - generic [ref=e279]: 删除
+          - list [ref=e280]:
+            - listitem "Previous Page" [ref=e281]:
+              - button "left" [disabled] [ref=e282]:
+                - img "left" [ref=e283]:
+                  - img [ref=e284]
+            - listitem "1" [ref=e286] [cursor=pointer]:
+              - generic [ref=e287]: "1"
+            - listitem "Next Page" [ref=e288]:
+              - button "right" [disabled] [ref=e289]:
+                - img "right" [ref=e290]:
+                  - img [ref=e291]

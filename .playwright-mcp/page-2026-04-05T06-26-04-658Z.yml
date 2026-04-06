@@ -1,0 +1,96 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "✍️ 我的博客" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: ✍️
+        - text: 我的博客
+      - generic [ref=e9]:
+        - menu [ref=e11]:
+          - menuitem "home 首页" [ref=e12] [cursor=pointer]:
+            - img "home" [ref=e13]:
+              - img [ref=e14]
+            - link "首页" [ref=e17]:
+              - /url: /
+          - menuitem "folder React" [ref=e18] [cursor=pointer]:
+            - img "folder" [ref=e19]:
+              - img [ref=e20]
+            - link "React" [ref=e23]:
+              - /url: /category/react
+          - menuitem "folder TypeScript" [ref=e24] [cursor=pointer]:
+            - img "folder" [ref=e25]:
+              - img [ref=e26]
+            - link "TypeScript" [ref=e29]:
+              - /url: /category/typescript
+          - menuitem "user 关于" [ref=e30] [cursor=pointer]:
+            - img "user" [ref=e31]:
+              - img [ref=e32]
+            - link "关于" [ref=e35]:
+              - /url: /about
+          - menuitem [disabled]:
+            - img:
+              - img
+        - generic [ref=e36] [cursor=pointer]:
+          - img [ref=e38]
+          - generic [ref=e39]: memeflyfly
+  - main [ref=e40]:
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - heading "欢迎来到我的博客" [level=1] [ref=e43]
+        - generic [ref=e44]: 分享前端技术、项目经验与生活感悟
+        - generic [ref=e45]:
+          - img "search" [ref=e47]:
+            - img [ref=e48]
+          - textbox "搜索文章..." [ref=e50]
+      - generic [ref=e52]:
+        - generic [ref=e55]:
+          - img "Image placeholder" [ref=e58]
+          - generic [ref=e62]:
+            - heading [level=3] [ref=e63]
+            - list [ref=e64]:
+              - listitem [ref=e65]
+              - listitem [ref=e66]
+              - listitem [ref=e67]
+        - generic [ref=e70]:
+          - img "Image placeholder" [ref=e73]
+          - generic [ref=e77]:
+            - heading [level=3] [ref=e78]
+            - list [ref=e79]:
+              - listitem [ref=e80]
+              - listitem [ref=e81]
+              - listitem [ref=e82]
+        - generic [ref=e85]:
+          - img "Image placeholder" [ref=e88]
+          - generic [ref=e92]:
+            - heading [level=3] [ref=e93]
+            - list [ref=e94]:
+              - listitem [ref=e95]
+              - listitem [ref=e96]
+              - listitem [ref=e97]
+        - generic [ref=e100]:
+          - img "Image placeholder" [ref=e103]
+          - generic [ref=e107]:
+            - heading [level=3] [ref=e108]
+            - list [ref=e109]:
+              - listitem [ref=e110]
+              - listitem [ref=e111]
+              - listitem [ref=e112]
+        - generic [ref=e115]:
+          - img "Image placeholder" [ref=e118]
+          - generic [ref=e122]:
+            - heading [level=3] [ref=e123]
+            - list [ref=e124]:
+              - listitem [ref=e125]
+              - listitem [ref=e126]
+              - listitem [ref=e127]
+        - generic [ref=e130]:
+          - img "Image placeholder" [ref=e133]
+          - generic [ref=e137]:
+            - heading [level=3] [ref=e138]
+            - list [ref=e139]:
+              - listitem [ref=e140]
+              - listitem [ref=e141]
+              - listitem [ref=e142]
+  - contentinfo [ref=e143]:
+    - generic [ref=e144]: © 2024 我的博客 · 用 ❤️ 和代码构建
+    - generic [ref=e145]: Built with React + Vite + Ant Design · 后端 Express + MySQL

@@ -18,12 +18,17 @@ import ArticleEditor from './pages/admin/ArticleEditor'
 
 const theme = {
   token: {
-    colorPrimary: '#2563EB',
+    colorPrimary: '#4F46E5',
     borderRadius: 8,
     fontFamily: "'Quicksand', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif",
     colorSuccess: '#22C55E',
     colorError: '#EF4444',
     colorWarning: '#F59E0B',
+    colorBgContainer: '#FFFEF9',
+    colorBgElevated: '#FFFFFF',
+    colorBorder: '#E7E5E0',
+    colorText: '#3C3A39',
+    colorTextSecondary: '#78716C',
   },
 }
 
