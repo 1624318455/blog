@@ -18,9 +18,12 @@ import ArticleEditor from './pages/admin/ArticleEditor'
 
 const theme = {
   token: {
-    colorPrimary: '#1890ff',
+    colorPrimary: '#2563EB',
     borderRadius: 8,
-    fontFamily: "'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif",
+    fontFamily: "'Quicksand', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif",
+    colorSuccess: '#22C55E',
+    colorError: '#EF4444',
+    colorWarning: '#F59E0B',
   },
 }
 
