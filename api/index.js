@@ -9,6 +9,44 @@ import { Resend } from 'resend';
 const app = express();
 const JWT_SECRET = process.env.JWT_SECRET || 'blog-jwt-secret-key-2024';
 
+// Simple in-memory rate limiter
+const rateLimitMap = new Map();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = {
+  '/api/auth/login': 10,
+  '/api/auth/register': 5,
+  '/api/auth/email-register': 3,
+  '/api/comments': 20,
+  default: 60,
+};
+
+function getRateLimitKey(req) {
+  return req.ip || req.headers['x-forwarded-for'] || 'unknown';
+}
+
+function rateLimit(req, res, next) {
+  const path = req.path;
+  const limitKey = Object.keys(RATE_LIMIT_MAX).find(k => path.startsWith(k)) || 'default';
+  const max = RATE_LIMIT_MAX[limitKey];
+  const key = `${getRateLimitKey(req)}:${limitKey}`;
+  const now = Date.now();
+  const windowData = rateLimitMap.get(key);
+
+  if (!windowData || now - windowData.start > RATE_LIMIT_WINDOW) {
+    rateLimitMap.set(key, { count: 1, start: now });
+    return next();
+  }
+
+  windowData.count++;
+  if (windowData.count > max) {
+    res.set('Retry-After', Math.ceil((windowData.start + RATE_LIMIT_WINDOW - now) / 1000));
+    return res.status(429).json({ error: '请求过于频繁，请稍后再试' });
+  }
+  next();
+}
+
+app.use(rateLimit);
+
 // Database pool - 使用 Transaction 模式（端口 6543）
 let pool = null;
 async function getDb() {

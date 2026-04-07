@@ -145,6 +145,7 @@ export default function ArticleDetail() {
       />
 
       <Card
+        className="article-detail-card"
         style={{
           borderRadius: 16,
           overflow: 'hidden',
@@ -246,17 +247,23 @@ export default function ArticleDetail() {
               font-weight: 600;
             }
             .markdown-body a {
-              color: #1890ff;
+              color: #4F46E5;
               text-decoration: none;
             }
             .markdown-body a:hover {
               text-decoration: underline;
             }
             .markdown-body blockquote {
-              border-left: 4px solid #1890ff;
+              border-left: 4px solid #4F46E5;
               padding-left: 16px;
               margin: 16px 0;
               color: #666;
+            }
+          `}</style>
+          <style>{`
+            .article-detail-card:hover {
+              box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
+              transform: none !important;
             }
           `}</style>
           <div dangerouslySetInnerHTML={{ __html: marked.parse(article.content?.replace(/\\n/g, '\n') || '', { async: false }) as string }} />

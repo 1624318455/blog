@@ -123,7 +123,7 @@ export default function Home() {
       {/* Hero 区域 */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #1890ff 0%, #43a3fb 100%)',
+          background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
           borderRadius: 16,
           padding: '48px 40px',
           marginBottom: 40,
@@ -205,7 +205,7 @@ export default function Home() {
                     >
                       <div style={{ display: 'flex', gap: 6, marginBottom: 10, flexWrap: 'wrap' }}>
                         {(article.tags || []).slice(0, 3).map((tag) => (
-                          <Tag key={tag} style={{ borderRadius: 10, fontSize: 12, background: '#e6f7ff', border: 'none', color: '#1890ff' }}>
+                          <Tag key={tag} style={{ borderRadius: 10, fontSize: 12, background: '#EEF2FF', border: 'none', color: '#4F46E5' }}>
                             {tag}
                           </Tag>
                         ))}
@@ -297,7 +297,6 @@ export default function Home() {
 
       <style>{`
         .article-card:hover {
-          transform: translateY(-4px);
           box-shadow: 0 8px 24px rgba(24, 144, 255, 0.15) !important;
         }
       `}</style>

@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, Button, Dropdown, Avatar, Card, Typography, Space } from 'antd'
+import { Menu, Button, Dropdown, Avatar, Card, Typography } from 'antd'
 import {
   HomeOutlined,
   FolderOutlined,
@@ -57,7 +57,7 @@ export default function Layout() {
       >
         <Avatar
           size={48}
-          style={{ background: '#1890ff' }}
+          style={{ background: '#4F46E5' }}
           src={user?.avatar}
         >
           {user?.username?.[0] || 'U'}
@@ -165,7 +165,7 @@ export default function Layout() {
             style={{
               fontSize: 22,
               fontWeight: 700,
-              color: '#1890ff',
+              color: '#4F46E5',
               textDecoration: 'none',
               letterSpacing: 1,
               display: 'flex',

@@ -318,3 +318,58 @@ fetch('/api/admin/articles/6', {
 3. **受保护路由**：访问需要 admin 权限的页面
 4. **CRUD 操作**：创建、读取、更新、删除功能测试
 5. **数据一致性**：验证数据库与前端显示一致
+
+---
+
+## 方法论 2026-04-06: Windows 定时任务 + 飞书通知自动化系统
+
+### 系统架构
+- 每日 18:00 北京时间自动执行备份任务
+- Windows Task Scheduler (schtasks) 创建定时任务
+- PowerShell 脚本执行 Git 备份
+- 飞书 CLI 发送任务执行通知
+
+### 关键脚本位置
+- `D:\Work\ForAI\scripts\backup-global.ps1` - 全局配置备份
+- `D:\Work\ForAI\scripts\backup-projects.ps1` - 项目文件备份
+- `D:\Work\ForAI\scripts\publish-summary.ps1` - 总结提取
+
+### 定时任务列表
+| 任务名 | 脚本 |
+|--------|------|
+| `\OpenCode\opencode-daily-backup-global` | backup-global.ps1 |
+| `\OpenCode\opencode-daily-backup-projects` | backup-projects.ps1 |
+| `\OpenCode\opencode-daily-publish-summary` | publish-summary.ps1 |
+
+### 经验总结
+1. **代理环境处理**：飞书 CLI 需要设置 `$env:LARK_CLI_NO_PROXY = "1"` 禁用代理
+2. **脚本编码**：PowerShell 脚本需要正确的换行符格式
+3. **目录删除问题**：删除临时目录前先离开该目录
+4. **Git 推送**：脚本中不需要单独配置 git user，已继承全局配置
+
+### 备份仓库
+- GitHub: https://github.com/1624318455/opencode-backup
+- 内容：全局 AGENTS.md/memory.md + 项目 AGENTS.md/memory.md
+
+---
+
+## 教训 2026-04-06: 博客文章内容截断问题
+
+### 问题
+飞书定时备份与通知实战文章在博客前台显示内容被截断，只显示到"系统架构"部分，后面的"核心实现"、"关键经验总结"、"技术栈"、"总结"等内容全部丢失。
+
+### 根因
+1. 最初创建文章时，通过管理后台上传内容，但 React 表单状态未正确更新
+2. 数据库中实际只保存了 1011 字符的截断内容
+3. Vercel 部署的版本也是截断后的版本
+
+### 解决方案
+1. 通过浏览器自动化（Playwright）直接操作管理后台
+2. 使用 `Object.getOwnPropertyDescriptor` 强制设置 textarea 值
+3. 触发正确的 InputEvent 事件更新 React 状态
+4. 点击"更新文章"按钮提交完整内容（2871 字符）
+
+### 验证方法
+- API 返回内容长度：2871 字符
+- 检查关键字符串："技术栈"、"总结"是否存在
+- 直接查看数据库 articles 表 content 字段

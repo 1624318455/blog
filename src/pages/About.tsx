@@ -31,7 +31,7 @@ export default function About() {
               width: 100,
               height: 100,
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #1890ff, #43a3fb)',
+              background: 'linear-gradient(135deg, #4F46E5, #7C3AED)',
               margin: '0 auto 20px',
               display: 'flex',
               alignItems: 'center',

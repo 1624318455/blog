@@ -1,20 +1,32 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { ConfigProvider, App as AntdApp } from 'antd'
+import { ConfigProvider, App as AntdApp, Spin } from 'antd'
 import { AuthProvider } from './contexts/AuthContext'
 import Layout from './components/Layout'
-import Home from './pages/Home'
-import ArticleDetail from './pages/ArticleDetail'
-import Category from './pages/Category'
-import About from './pages/About'
-import Profile from './pages/Profile'
-import Center from './pages/Center'
-import Settings from './pages/Settings'
-import UserProfile from './pages/UserProfile'
-import NotFound from './pages/NotFound'
 import AdminLayout from './pages/admin/AdminLayout'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import AdminArticles from './pages/admin/AdminArticles'
-import ArticleEditor from './pages/admin/ArticleEditor'
+
+const Home = lazy(() => import('./pages/Home'))
+const ArticleDetail = lazy(() => import('./pages/ArticleDetail'))
+const Category = lazy(() => import('./pages/Category'))
+const About = lazy(() => import('./pages/About'))
+const Profile = lazy(() => import('./pages/Profile'))
+const Center = lazy(() => import('./pages/Center'))
+const Settings = lazy(() => import('./pages/Settings'))
+const UserProfile = lazy(() => import('./pages/UserProfile'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminArticles = lazy(() => import('./pages/admin/AdminArticles'))
+const ArticleEditor = lazy(() => import('./pages/admin/ArticleEditor'))
+
+const PageLoader = () => (
+  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+    <Spin size="large" tip="加载中..." />
+  </div>
+)
+
+const LazyPage = ({ children }: { children: React.ReactNode }) => (
+  <Suspense fallback={<PageLoader />}>{children}</Suspense>
+)
 
 const theme = {
   token: {
@@ -41,23 +53,23 @@ function App() {
             <Routes>
               {/* 前台路由 */}
               <Route path="/" element={<Layout />}>
-                <Route index element={<Home />} />
-                <Route path="article/:id" element={<ArticleDetail />} />
-                <Route path="category/:tag" element={<Category />} />
-                <Route path="about" element={<About />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="settings" element={<Settings />} />
-                <Route path="center/:username" element={<Center />} />
-                <Route path="user/:username" element={<UserProfile />} />
-                <Route path="*" element={<NotFound />} />
+                <Route index element={<LazyPage><Home /></LazyPage>} />
+                <Route path="article/:id" element={<LazyPage><ArticleDetail /></LazyPage>} />
+                <Route path="category/:tag" element={<LazyPage><Category /></LazyPage>} />
+                <Route path="about" element={<LazyPage><About /></LazyPage>} />
+                <Route path="profile" element={<LazyPage><Profile /></LazyPage>} />
+                <Route path="settings" element={<LazyPage><Settings /></LazyPage>} />
+                <Route path="center/:username" element={<LazyPage><Center /></LazyPage>} />
+                <Route path="user/:username" element={<LazyPage><UserProfile /></LazyPage>} />
+                <Route path="*" element={<LazyPage><NotFound /></LazyPage>} />
               </Route>
-              
+
               {/* 后台管理路由 */}
               <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="articles" element={<AdminArticles />} />
-                <Route path="articles/new" element={<ArticleEditor />} />
-                <Route path="articles/edit/:id" element={<ArticleEditor />} />
+                <Route index element={<LazyPage><AdminDashboard /></LazyPage>} />
+                <Route path="articles" element={<LazyPage><AdminArticles /></LazyPage>} />
+                <Route path="articles/new" element={<LazyPage><ArticleEditor /></LazyPage>} />
+                <Route path="articles/edit/:id" element={<LazyPage><ArticleEditor /></LazyPage>} />
               </Route>
             </Routes>
           </BrowserRouter>

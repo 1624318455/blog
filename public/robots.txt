@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://blog-phi-five-62.vercel.app/sitemap.xml
