@@ -7,16 +7,22 @@ interface WalineProps {
 export default function WalineComment({ path }: WalineProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const initialized = useRef(false)
-  const [error, setError] = useState(false)
+  const [showFallback, setShowFallback] = useState(false)
 
   useEffect(() => {
     if (!containerRef.current || initialized.current) return
+    
+    const timer = setTimeout(() => {
+      if (!initialized.current) {
+        setShowFallback(true)
+      }
+    }, 5000)
     
     const initWaline = async () => {
       try {
         const Waline = await import('@waline/client')
         
-        Waline.init({
+        await Waline.init({
           el: containerRef.current!,
           path: path,
           serverURL: 'https://waline-demo-gray.vercel.app',
@@ -26,16 +32,20 @@ export default function WalineComment({ path }: WalineProps) {
           requiredMeta: ['nick'],
         })
         initialized.current = true
+        clearTimeout(timer)
       } catch (e) {
-        console.warn('Waline init failed, using fallback')
-        setError(true)
+        console.warn('Waline init failed')
+        setShowFallback(true)
+        clearTimeout(timer)
       }
     }
 
     initWaline()
+
+    return () => clearTimeout(timer)
   }, [path])
 
-  if (error) {
+  if (showFallback) {
     return (
       <div 
         className="waline-container"
