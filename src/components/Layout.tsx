@@ -240,23 +240,12 @@ export default function Layout() {
 
             {/* 主题切换按钮 */}
             <Tooltip title={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}>
-              <button
+              <Button
+                type="text"
+                icon={theme === 'dark' ? <SunOutlined /> : <MoonOutlined />}
                 onClick={toggleTheme}
-                style={{
-                  border: 'none',
-                  background: 'none',
-                  fontSize: 20,
-                  cursor: 'pointer',
-                  padding: '4px 8px',
-                  borderRadius: 8,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: theme === 'dark' ? '#F5F5F5' : '#3C3A39',
-                }}
-              >
-                {theme === 'dark' ? <SunOutlined /> : <MoonOutlined />}
-              </button>
+                style={{ fontSize: 20, padding: '4px 8px' }}
+              />
             </Tooltip>
 
             {/* 移动端菜单按钮 */}
