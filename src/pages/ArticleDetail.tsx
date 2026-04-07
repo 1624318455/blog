@@ -4,7 +4,7 @@ import { ArrowLeftOutlined, CalendarOutlined, UserOutlined, EyeOutlined, ReloadO
 import { useState, useEffect } from 'react'
 import { marked } from 'marked'
 import { articleApi } from '../api/auth'
-import WalineComment from '../components/WalineComment'
+import TwikooComment from '../components/TwikooComment'
 import ArticleToc from '../components/ArticleToc'
 
 const { Title, Text } = Typography
@@ -279,7 +279,7 @@ export default function ArticleDetail() {
           </Card>
 
           {/* Waline 评论系统 */}
-          <WalineComment path={`/article/${id}`} />
+          <TwikooComment path={`/article/${id}`} />
         </Col>
 
         {/* TOC 侧边栏 */}

@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
-    "@waline/client": "^3.13.0",
     "antd": "^5.22.0",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
@@ -35,7 +34,8 @@
     "react-markdown": "^10.1.0",
     "react-router-dom": "^6.28.0",
     "remark-gfm": "^4.0.1",
-    "resend": "^6.9.4"
+    "resend": "^6.9.4",
+    "twikoo": "^1.7.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

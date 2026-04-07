@@ -1,0 +1,385 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "✍️ 我的博客" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: ✍️
+        - text: 我的博客
+      - generic [ref=e9]:
+        - menu [ref=e11]:
+          - menuitem "home 首页" [ref=e12] [cursor=pointer]:
+            - img "home" [ref=e13]:
+              - img [ref=e14]
+            - link "首页" [ref=e17]:
+              - /url: /
+          - menuitem "folder React" [ref=e18] [cursor=pointer]:
+            - img "folder" [ref=e19]:
+              - img [ref=e20]
+            - link "React" [ref=e23]:
+              - /url: /category/react
+          - menuitem "folder TypeScript" [ref=e24] [cursor=pointer]:
+            - img "folder" [ref=e25]:
+              - img [ref=e26]
+            - link "TypeScript" [ref=e29]:
+              - /url: /category/typescript
+          - menuitem "user 关于" [ref=e30] [cursor=pointer]:
+            - img "user" [ref=e31]:
+              - img [ref=e32]
+            - link "关于" [ref=e35]:
+              - /url: /about
+          - menuitem [disabled]:
+            - img:
+              - img
+        - button "login 登录" [ref=e36] [cursor=pointer]:
+          - img "login" [ref=e38]:
+            - img [ref=e39]
+          - generic [ref=e41]: 登录
+        - button "moon" [ref=e42] [cursor=pointer]:
+          - img "moon" [ref=e44]:
+            - img [ref=e45]
+  - main [ref=e47]:
+    - generic [ref=e48]:
+      - navigation [ref=e49]:
+        - list [ref=e50]:
+          - listitem [ref=e51]:
+            - link "首页" [ref=e53] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e54]: /
+          - listitem [ref=e55]:
+            - link "automation" [ref=e57] [cursor=pointer]:
+              - /url: /category/automation
+          - listitem [ref=e58]: /
+          - listitem [ref=e59]: 打造个人开发知识管理系统：定时备份与飞书通知实战
+      - generic [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - generic [ref=e65]: automation
+              - generic [ref=e66]: feishu
+              - generic [ref=e67]: github
+              - generic [ref=e68]: backup
+              - generic [ref=e69]: windows
+            - heading "打造个人开发知识管理系统：定时备份与飞书通知实战" [level=1] [ref=e70]
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - img "user" [ref=e73]:
+                  - img [ref=e74]
+                - link "memeflyfly" [ref=e76] [cursor=pointer]:
+                  - /url: /user/memeflyfly
+              - generic [ref=e77]:
+                - img "calendar" [ref=e78]:
+                  - img [ref=e79]
+                - text: 2026-04-05
+              - generic [ref=e81]:
+                - img "eye" [ref=e82]:
+                  - img [ref=e83]
+                - text: 35 次阅读
+              - generic [ref=e85]: ⏱️ 3 分钟阅读
+            - separator [ref=e86]
+            - generic [ref=e88]:
+              - heading "打造个人开发知识管理系统：定时备份与飞书通知实战" [level=1] [ref=e89]
+              - blockquote [ref=e90]:
+                - paragraph [ref=e91]: 本文记录了如何构建一个完整的开发配置与知识管理自动化系统，包括每日自动备份、飞书实时通知、以及技术沉淀的自动发布流程。
+              - heading "背景" [level=2] [ref=e92]
+              - paragraph [ref=e93]: 作为一名开发者，我们日常使用 OpenCode 进行 AI 辅助编程，积累了大量的配置信息（AGENTS.md）和项目经验（memory.md）。这些内容如果丢失，将是巨大的损失。
+              - paragraph [ref=e94]: 因此，我构建了一套自动化系统来实现：
+              - list [ref=e95]:
+                - listitem [ref=e96]: 每日自动备份全局配置和项目文件到 GitHub
+                - listitem [ref=e97]: 任务执行状态实时推送到飞书群
+                - listitem [ref=e98]: 将项目中的经验总结自动发布到技术博客
+              - heading "系统架构" [level=2] [ref=e99]
+              - code [ref=e101]: ┌─────────────────────────────────────────────────────────────┐ │ 每日 18:00 定时触发 │ └─────────────────────────────────────────────────────────────┘ │ ▼ ┌─────────────────────────────────────────────────────────────┐ │ Windows Task Scheduler │ │ ┌─────────────────┐ ┌──────────────────┐ ┌─────────────┐ │ │ │ backup-global │ │ backup-projects │ │ publish- │ │ │ │ .ps1 │ │ .ps1 │ │ summary.ps1 │ │ │ └─────────────────┘ └──────────────────┘ └─────────────┘ │ └─────────────────────────────────────────────────────────────┘ │ ┌───────────────────┼───────────────────┐ ▼ ▼ ▼ ┌──────────────────┐ ┌──────────────┐ ┌─────────────────┐ │ GitHub 仓库 │ │ 飞书机器人 │ │ Blog 草稿 │ │ opencode-backup │ │ Detroit │ │ daily-summary │ └──────────────────┘ └──────────────┘ └─────────────────┘
+              - heading "核心实现" [level=2] [ref=e102]
+              - heading "1. PowerShell 备份脚本" [level=3] [ref=e103]
+              - paragraph [ref=e104]: 以全局配置备份为例，核心代码如下：
+              - code [ref=e106]: "# 飞书通知函数 function Send-FeishuMessage { param(\\$text) $env:LARK_CLI_NO_PROXY = \"1\" npx -y @larksuite/cli im +messages-send --chat-id $CHAT_ID --text $text } # 开始时发送通知 Send-FeishuMessage -text \"📦 开始执行全局配置备份任务...\" # 执行备份逻辑 # ... git clone, copy files, commit, push ... # 完成时发送通知 $successMsg = \"✅ 全局配置备份完成！\" Send-FeishuMessage -text $successMsg"
+              - heading "2. Windows 定时任务" [level=3] [ref=e107]
+              - paragraph [ref=e108]:
+                - text: 使用
+                - code [ref=e109]: schtasks
+                - text: 创建每日定时任务：
+              - code [ref=e111]: "# 创建全局备份任务 schtasks /Create /F /TN \"OpenCode\\\\opencode-daily-backup-global\" \\\\ /TR \"powershell.exe -ExecutionPolicy Bypass -File D:\\\\Work\\\\ForAI\\\\scripts\\\\backup-global.ps1\" \\\\ /SC DAILY /ST 18:00"
+              - heading "3. 飞书消息效果" [level=3] [ref=e112]
+              - paragraph [ref=e113]: 任务执行时会在"Detroit家人群"收到如下消息：
+              - code [ref=e115]: "📦 开始执行全局配置备份任务... 时间: 2026-04-05 18:00 ✅ 全局AGENTS.md 已备份 ✅ 全局memory.md 已备份 ✅ 提交成功 ✅ 已推送到 GitHub 完成时间: 2026-04-05 18:00:30"
+              - heading "关键经验总结" [level=2] [ref=e116]
+              - heading "1. 代理环境处理" [level=3] [ref=e117]
+              - paragraph [ref=e118]: 飞书 CLI 在有代理的环境下可能出现问题，解决方法：
+              - code [ref=e120]: "$env:LARK_CLI_NO_PROXY = \"1\" # 禁用代理"
+              - heading "2. opencode-scheduler 的局限性" [level=3] [ref=e121]
+              - list [ref=e122]:
+                - listitem [ref=e123]:
+                  - text: 在 Windows 上使用
+                  - code [ref=e124]: schedule_job
+                  - text: 工具创建的任务会失败
+                - listitem [ref=e125]:
+                  - text: 解决方案：直接使用
+                  - code [ref=e126]: schtasks
+                  - text: 创建 Windows 原生任务
+              - heading "3. 备份仓库策略" [level=3] [ref=e127]
+              - list [ref=e128]:
+                - listitem [ref=e129]: 创建私有仓库避免敏感信息泄露
+                - listitem [ref=e130]:
+                  - text: 使用
+                  - code [ref=e131]: gh auth
+                  - text: 登录后直接推送，无需每次输入凭据
+              - heading "技术栈" [level=2] [ref=e132]
+              - table [ref=e133]:
+                - rowgroup [ref=e134]:
+                  - row "组件 用途" [ref=e135]:
+                    - columnheader "组件" [ref=e136]
+                    - columnheader "用途" [ref=e137]
+                - rowgroup [ref=e138]:
+                  - row "Windows Task Scheduler 定时触发任务" [ref=e139]:
+                    - cell "Windows Task Scheduler" [ref=e140]
+                    - cell "定时触发任务" [ref=e141]
+                  - row "PowerShell 脚本逻辑执行" [ref=e142]:
+                    - cell "PowerShell" [ref=e143]
+                    - cell "脚本逻辑执行" [ref=e144]
+                  - row "Git + GitHub 配置版本化管理" [ref=e145]:
+                    - cell "Git + GitHub" [ref=e146]
+                    - cell "配置版本化管理" [ref=e147]
+                  - row "飞书 CLI 消息通知机器人" [ref=e148]:
+                    - cell "飞书 CLI" [ref=e149]
+                    - cell "消息通知机器人" [ref=e150]
+                  - row "OpenCode AI 编程辅助" [ref=e151]:
+                    - cell "OpenCode" [ref=e152]
+                    - cell "AI 编程辅助" [ref=e153]
+              - heading "总结" [level=2] [ref=e154]
+              - paragraph [ref=e155]: 这套系统实现了：
+              - list [ref=e156]:
+                - listitem [ref=e157]:
+                  - strong [ref=e158]: 零丢失
+                  - text: ：每日自动备份，配置和经验永不丢失
+                - listitem [ref=e159]:
+                  - strong [ref=e160]: 实时感知
+                  - text: ：任务状态实时推送，不错过任何执行结果
+                - listitem [ref=e161]:
+                  - strong [ref=e162]: 知识沉淀
+                  - text: ：经验总结自动提取，形成技术文章
+              - paragraph [ref=e163]: 希望这个方案能给有类似需求的开发者一些参考。如果你也有更好的实现方式，欢迎交流探讨！
+              - separator [ref=e164]
+              - paragraph [ref=e165]:
+                - emphasis [ref=e166]: 本文由 AI 辅助编写，自动化系统驱动的知识管理系统
+            - separator [ref=e167]
+            - generic [ref=e168]:
+              - button "arrow-left 返回首页" [ref=e169] [cursor=pointer]:
+                - img "arrow-left" [ref=e171]:
+                  - img [ref=e172]
+                - generic [ref=e174]: 返回首页
+              - generic [ref=e175]:
+                - button "🔗 复制链接" [ref=e176] [cursor=pointer]:
+                  - generic [ref=e177]: 🔗
+                  - generic [ref=e178]: 复制链接
+                - button "📤 分享" [ref=e179] [cursor=pointer]:
+                  - generic [ref=e180]: 📤
+                  - generic [ref=e181]: 分享
+          - generic [ref=e183]:
+            - generic [ref=e185]:
+              - generic [ref=e186]:
+                - generic [ref=e187]:
+                  - text: 昵称
+                  - textbox "昵称" [ref=e188]
+                - generic [ref=e189]:
+                  - text: 邮箱(可选)
+                  - textbox "邮箱(可选)" [ref=e190]
+                - generic [ref=e191]:
+                  - text: 网址(可选)
+                  - textbox "网址(可选)" [ref=e192]
+              - textbox "欢迎评论" [ref=e193]
+              - generic [ref=e194]:
+                - generic [ref=e195]:
+                  - link "Markdown is supported" [ref=e196] [cursor=pointer]:
+                    - /url: https://guides.github.com/features/mastering-markdown/
+                    - img [ref=e197]
+                  - button "表情" [ref=e199]:
+                    - img [ref=e200]
+                  - button "表情包" [ref=e202]:
+                    - img [ref=e203]
+                  - button [ref=e206]
+                  - generic "上传图片" [ref=e207]:
+                    - img [ref=e208]
+                  - button "预览" [ref=e211]:
+                    - img [ref=e212]
+                - generic [ref=e215]:
+                  - generic [ref=e216]: 0 字
+                  - button "登录" [ref=e217]
+                  - button "提交" [ref=e218]
+                - generic [ref=e219]:
+                  - textbox "搜索表情包" [ref=e220]
+                  - img [ref=e222]
+                - generic [ref=e225]:
+                  - button "weibo_smile" [ref=e226]
+                  - button "weibo_lovely" [ref=e227]
+                  - button "weibo_blush" [ref=e228]
+                  - button "weibo_grin" [ref=e229]
+                  - button "weibo_laugh" [ref=e230]
+                  - button "weibo_joy" [ref=e231]
+                  - button "weibo_angry" [ref=e232]
+                  - button "weibo_bye" [ref=e233]
+                  - button "weibo_hammer" [ref=e234]
+                  - button "weibo_kiss" [ref=e235]
+                  - button "weibo_love" [ref=e236]
+                  - button "weibo_mask" [ref=e237]
+                  - button "weibo_money" [ref=e238]
+                  - button "weibo_quiet" [ref=e239]
+                  - button "weibo_rage" [ref=e240]
+                  - button "weibo_sad" [ref=e241]
+                  - button "weibo_shy" [ref=e242]
+                  - button "weibo_sick" [ref=e243]
+                  - button "weibo_slient" [ref=e244]
+                  - button "weibo_smirk" [ref=e245]
+                  - button "weibo_slap" [ref=e246]
+                  - button "weibo_antic" [ref=e247]
+                  - button "weibo_desire" [ref=e248]
+                  - button "weibo_longing" [ref=e249]
+                  - button "weibo_no_idea" [ref=e250]
+                  - button "weibo_look_down" [ref=e251]
+                  - button "weibo_clap" [ref=e252]
+                  - button "weibo_yum" [ref=e253]
+                  - button "weibo_sleep" [ref=e254]
+                  - button "weibo_dizzy_face" [ref=e255]
+                  - button "weibo_chuckle" [ref=e256]
+                  - button "weibo_disappointed" [ref=e257]
+                  - button "weibo_flushed" [ref=e258]
+                  - button "weibo_heart_eyes" [ref=e259]
+                  - button "weibo_no" [ref=e260]
+                  - button "weibo_shuai" [ref=e261]
+                  - button "weibo_suprised" [ref=e262]
+                  - button "weibo_think" [ref=e263]
+                  - button "weibo_vomit" [ref=e264]
+                  - button "weibo_scream" [ref=e265]
+                  - button "weibo_sleepy" [ref=e266]
+                  - button "weibo_sob" [ref=e267]
+                  - button "weibo_sunglasses" [ref=e268]
+                  - button "weibo_greddy" [ref=e269]
+                  - button "weibo_pick_nose" [ref=e270]
+                  - button "weibo_annoyed" [ref=e271]
+                  - button "weibo_awkward" [ref=e272]
+                  - button "weibo_confused" [ref=e273]
+                  - button "weibo_grievance" [ref=e274]
+                  - button "weibo_poor" [ref=e275]
+                  - button "weibo_wink" [ref=e276]
+                  - button "weibo_rolling_eyes" [ref=e277]
+                  - button "weibo_watermalon" [ref=e278]
+                  - button "weibo_annoyed_left" [ref=e279]
+                  - button "weibo_annoyed_right" [ref=e280]
+                  - button "weibo_yawn" [ref=e281]
+                  - button "weibo_hufen" [ref=e282]
+                  - button "weibo_doge" [ref=e283]
+                  - button "weibo_husky" [ref=e284]
+                  - button "weibo_dog_annoyed" [ref=e285]
+                  - button "weibo_dog_bye" [ref=e286]
+                  - button "weibo_dog_consider" [ref=e287]
+                  - button "weibo_dog_cry" [ref=e288]
+                  - button "weibo_dog_joy" [ref=e289]
+                  - button "weibo_dog_laugh" [ref=e290]
+                  - button "weibo_dog_sweat" [ref=e291]
+                  - button "weibo_dog_think" [ref=e292]
+                  - button "weibo_dog_yum" [ref=e293]
+                  - button "weibo_cat" [ref=e294]
+                  - button "weibo_cat_annoyed" [ref=e295]
+                  - button "weibo_cat_bye" [ref=e296]
+                  - button "weibo_cat_cry" [ref=e297]
+                  - button "weibo_cat_think" [ref=e298]
+                  - button "weibo_girl_annoyed" [ref=e299]
+                  - button "weibo_boy" [ref=e300]
+                  - button "weibo_girl" [ref=e301]
+                  - button "weibo_panda" [ref=e302]
+                  - button "weibo_pig" [ref=e303]
+                  - button "weibo_rabbit" [ref=e304]
+                  - button "weibo_ultraman" [ref=e305]
+                  - button "weibo_wool_group" [ref=e306]
+                  - button "weibo_yan" [ref=e307]
+                  - button "weibo_xi" [ref=e308]
+                  - button "weibo_soap" [ref=e309]
+                  - button "weibo_meng" [ref=e310]
+                  - button "weibo_jiong" [ref=e311]
+                  - button "weibo_geili" [ref=e312]
+                  - button "weibo_shenma" [ref=e313]
+                  - button "weibo_alpaca" [ref=e314]
+            - generic [ref=e315]:
+              - generic [ref=e316]: 评论
+              - list [ref=e317]:
+                - listitem [ref=e318]: 按正序
+                - listitem [ref=e319]: 按倒序
+                - listitem [ref=e320]: 按热度
+            - button "刷新" [ref=e322]
+            - generic [ref=e323]:
+              - generic [ref=e324]:
+                - link "订阅本文评论" [ref=e325] [cursor=pointer]:
+                  - /url: https://waline-demo-gray.vercel.app/api/comment/rss?path=%2Farticle%2F8
+                  - img [ref=e326]
+                  - text: 订阅本文评论
+                - link "订阅本站评论" [ref=e333] [cursor=pointer]:
+                  - /url: https://waline-demo-gray.vercel.app/api/comment/rss
+                  - img [ref=e334]
+                  - text: 订阅本站评论
+              - generic [ref=e341]:
+                - text: Powered by
+                - link "Waline" [ref=e342] [cursor=pointer]:
+                  - /url: https://github.com/walinejs/waline
+                - text: v3.13.0
+        - generic [ref=e344]:
+          - generic [ref=e345]: 📑 目录
+          - list [ref=e346]:
+            - listitem [ref=e347]:
+              - link "打造个人开发知识管理系统：定时备份与飞书通知实战" [ref=e348] [cursor=pointer]:
+                - /url: "#打造个人开发知识管理系统-定时备份与飞书通知实战"
+            - listitem [ref=e349]:
+              - link "背景" [ref=e350] [cursor=pointer]:
+                - /url: "#背景"
+            - listitem [ref=e351]:
+              - link "系统架构" [ref=e352] [cursor=pointer]:
+                - /url: "#系统架构"
+            - listitem [ref=e353]:
+              - link "核心实现" [ref=e354] [cursor=pointer]:
+                - /url: "#核心实现"
+            - listitem [ref=e355]:
+              - link "1. PowerShell 备份脚本" [ref=e356] [cursor=pointer]:
+                - /url: "#1-powershell-备份脚本"
+            - listitem [ref=e357]:
+              - link "飞书通知函数" [ref=e358] [cursor=pointer]:
+                - /url: "#飞书通知函数"
+            - listitem [ref=e359]:
+              - link "开始时发送通知" [ref=e360] [cursor=pointer]:
+                - /url: "#开始时发送通知"
+            - listitem [ref=e361]:
+              - link "执行备份逻辑" [ref=e362] [cursor=pointer]:
+                - /url: "#执行备份逻辑"
+            - listitem [ref=e363]:
+              - link "... git clone, copy files, commit, push ..." [ref=e364] [cursor=pointer]:
+                - /url: "#-git-clone-copy-files-commit-push-"
+            - listitem [ref=e365]:
+              - link "完成时发送通知" [ref=e366] [cursor=pointer]:
+                - /url: "#完成时发送通知"
+            - listitem [ref=e367]:
+              - link "2. Windows 定时任务" [ref=e368] [cursor=pointer]:
+                - /url: "#2-windows-定时任务"
+            - listitem [ref=e369]:
+              - link "创建全局备份任务" [ref=e370] [cursor=pointer]:
+                - /url: "#创建全局备份任务"
+            - listitem [ref=e371]:
+              - link "3. 飞书消息效果" [ref=e372] [cursor=pointer]:
+                - /url: "#3-飞书消息效果"
+            - listitem [ref=e373]:
+              - link "关键经验总结" [ref=e374] [cursor=pointer]:
+                - /url: "#关键经验总结"
+            - listitem [ref=e375]:
+              - link "1. 代理环境处理" [ref=e376] [cursor=pointer]:
+                - /url: "#1-代理环境处理"
+            - listitem [ref=e377]:
+              - link "2. opencode-scheduler 的局限性" [ref=e378] [cursor=pointer]:
+                - /url: "#2-opencode-scheduler-的局限性"
+            - listitem [ref=e379]:
+              - link "3. 备份仓库策略" [ref=e380] [cursor=pointer]:
+                - /url: "#3-备份仓库策略"
+            - listitem [ref=e381]:
+              - link "技术栈" [ref=e382] [cursor=pointer]:
+                - /url: "#技术栈"
+            - listitem [ref=e383]:
+              - link "总结" [ref=e384] [cursor=pointer]:
+                - /url: "#总结"
+  - contentinfo [ref=e385]:
+    - generic [ref=e386]: © 2024 我的博客 · 用 ❤️ 和代码构建
+    - generic [ref=e387]: Built with React + Vite + Ant Design · 后端 Express + MySQL
