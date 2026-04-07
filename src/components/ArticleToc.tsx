@@ -15,10 +15,13 @@ export default function ArticleToc({ content }: ArticleTocProps) {
   
   const toc = useMemo(() => {
     const headings: TocItem[] = []
+    
+    // 移除代码块后再匹配标题
+    const contentWithoutCode = content.replace(/```[\s\S]*?```/g, '').replace(/`[^`]+`/g, '')
     const headingRegex = /^(#{1,3})\s+(.+)$/gm
     let match
     
-    while ((match = headingRegex.exec(content)) !== null) {
+    while ((match = headingRegex.exec(contentWithoutCode)) !== null) {
       const level = match[1].length
       const text = match[2].trim()
       const id = text.toLowerCase().replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replace(/-+/g, '-')
