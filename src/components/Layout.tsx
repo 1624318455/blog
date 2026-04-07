@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom'
-import { Menu, Button, Dropdown, Avatar, Card, Typography } from 'antd'
+import { Menu, Button, Dropdown, Avatar, Card, Typography, Tooltip } from 'antd'
 import {
   HomeOutlined,
   FolderOutlined,
@@ -9,10 +9,13 @@ import {
   LoginOutlined,
   SettingOutlined,
   HomeFilled,
+  SunOutlined,
+  MoonOutlined,
 } from '@ant-design/icons'
 import { useState } from 'react'
 import LoginModal from './LoginModal'
 import { useAuth } from '../hooks/useAuth'
+import { useTheme } from '../contexts/ThemeContext'
 
 const { Text } = Typography
 
@@ -30,6 +33,7 @@ export default function Layout() {
   const [loginOpen, setLoginOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const { user, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
 
   const selectedKey = menuItems.find((item) =>
     location.pathname === item.key || location.pathname.startsWith(item.key + '/')
@@ -141,7 +145,7 @@ export default function Layout() {
       {/* 导航栏 */}
       <header
         style={{
-          background: '#fff',
+          background: 'var(--color-header-bg)',
           boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
           position: 'sticky',
           top: 0,
@@ -234,6 +238,27 @@ export default function Layout() {
               </Button>
             )}
 
+            {/* 主题切换按钮 */}
+            <Tooltip title={theme === 'dark' ? '切换到浅色模式' : '切换到深色模式'}>
+              <button
+                onClick={toggleTheme}
+                style={{
+                  border: 'none',
+                  background: 'none',
+                  fontSize: 20,
+                  cursor: 'pointer',
+                  padding: '4px 8px',
+                  borderRadius: 8,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: theme === 'dark' ? '#F5F5F5' : '#3C3A39',
+                }}
+              >
+                {theme === 'dark' ? <SunOutlined /> : <MoonOutlined />}
+              </button>
+            </Tooltip>
+
             {/* 移动端菜单按钮 */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -255,8 +280,8 @@ export default function Layout() {
         {mobileOpen && (
           <div
             style={{
-              background: '#fff',
-              borderTop: '1px solid #f0f0f0',
+              background: 'var(--color-header-bg)',
+              borderTop: '1px solid var(--color-border)',
               padding: '12px 24px',
             }}
           >
@@ -278,8 +303,8 @@ export default function Layout() {
       {/* 页脚 */}
       <footer
         style={{
-          background: '#001529',
-          color: 'rgba(255,255,255,0.65)',
+          background: 'var(--color-footer-bg)',
+          color: 'var(--color-text-muted)',
           textAlign: 'center',
           padding: '24px',
           fontSize: 14,

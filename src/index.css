@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Tavily-inspired warm color scheme */
+  /* Light mode (Tavily-inspired) */
   --color-primary: #1a1a1a;
   --color-secondary: #3C3A39;
   --color-cta: #4F46E5;
@@ -11,10 +11,28 @@
   --color-text: #3C3A39;
   --color-text-muted: #78716C;
   --color-border: #E7E5E0;
-  --border-radius: 8px;
-  --transition-duration: 200ms;
+  --color-card-bg: #FFFFFF;
+  --color-header-bg: #FFFFFF;
+  --color-footer-bg: #1a1a1a;
   --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  --color-primary: #F5F5F5;
+  --color-secondary: #A1A1AA;
+  --color-cta: #818CF8;
+  --color-cta-hover: #6366F1;
+  --color-background: #18181B;
+  --color-background-secondary: #27272A;
+  --color-text: #E4E4E7;
+  --color-text-muted: #A1A1AA;
+  --color-border: #3F3F46;
+  --color-card-bg: #27272A;
+  --color-header-bg: #27272A;
+  --color-footer-bg: #09090B;
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -32,7 +50,11 @@ body {
   background-color: var(--color-background);
   color: var(--color-text);
   line-height: 1.7;
-  transition: background-color var(--transition-duration) ease;
+  transition: background-color var(--transition-duration) ease, color var(--transition-duration) ease;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--color-background);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -49,7 +71,7 @@ a {
 }
 
 a:hover {
-  color: #1d4ed8;
+  color: var(--color-cta-hover);
 }
 
 button, .ant-btn {
@@ -62,6 +84,8 @@ button:hover, .ant-btn:hover {
 
 .ant-card {
   border-radius: var(--border-radius);
+  background-color: var(--color-card-bg) !important;
+  border-color: var(--color-border) !important;
   transition: all var(--transition-duration) ease;
 }
 
@@ -69,15 +93,26 @@ button:hover, .ant-btn:hover {
   box-shadow: var(--shadow-card);
 }
 
+[data-theme="dark"] .ant-card {
+  background-color: var(--color-card-bg);
+}
+
 .ant-input, .ant-input-affix-wrapper {
   border-radius: var(--border-radius);
   transition: all var(--transition-duration) ease;
+  background-color: var(--color-card-bg) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
 }
 
 .ant-input:focus, .ant-input-affix-wrapper:focus,
 .ant-input:hover, .ant-input-affix-wrapper:hover {
   border-color: var(--color-cta);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+  box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+}
+
+.ant-input::placeholder {
+  color: var(--color-text-muted) !important;
 }
 
 .ant-menu-item {
@@ -85,17 +120,119 @@ button:hover, .ant-btn:hover {
 }
 
 .ant-menu-item:hover {
-  background-color: rgba(37, 99, 235, 0.05);
+  background-color: rgba(79, 70, 229, 0.05);
+}
+
+[data-theme="dark"] .ant-menu-item:hover {
+  background-color: rgba(129, 140, 248, 0.1);
 }
 
 .ant-table-thead > tr > th {
-  background-color: #fafafa !important;
+  background-color: var(--color-background-secondary) !important;
   font-family: 'Caveat', cursive;
   font-weight: 600;
 }
 
 .ant-table-tbody > tr:hover > td {
-  background-color: rgba(37, 99, 235, 0.02) !important;
+  background-color: rgba(79, 70, 229, 0.02) !important;
+}
+
+[data-theme="dark"] .ant-table-thead > tr > th {
+  background-color: var(--color-card-bg) !important;
+}
+
+[data-theme="dark"] .ant-table {
+  background: var(--color-card-bg);
+}
+
+/* Header dark mode */
+[data-theme="dark"] header {
+  background-color: var(--color-header-bg) !important;
+}
+
+/* Footer dark mode */
+[data-theme="dark"] footer {
+  background-color: var(--color-footer-bg) !important;
+}
+
+/* Breadcrumb dark mode */
+[data-theme="dark"] .ant-breadcrumb-link {
+  color: var(--color-cta) !important;
+}
+
+/* Tag dark mode */
+[data-theme="dark"] .ant-tag {
+  background-color: var(--color-card-bg);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+/* Pagination dark mode */
+[data-theme="dark"] .ant-pagination-item {
+  background-color: var(--color-card-bg);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .ant-pagination-item a {
+  color: var(--color-text);
+}
+
+/* Select dark mode */
+[data-theme="dark"] .ant-select-selector {
+  background-color: var(--color-card-bg) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Modal dark mode */
+[data-theme="dark"] .ant-modal-content {
+  background-color: var(--color-card-bg);
+}
+
+/* Message dark mode */
+[data-theme="dark"] .ant-message-notice-content {
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+/* Dropdown dark mode */
+[data-theme="dark"] .ant-dropdown-menu {
+  background-color: var(--color-card-bg);
+}
+
+/* Popconfirm dark mode */
+[data-theme="dark"] .ant-popconfirm-message-title {
+  color: var(--color-text);
+}
+
+/* Form dark mode */
+[data-theme="dark"] .ant-form-item-label > label {
+  color: var(--color-text);
+}
+
+/* Textarea dark mode */
+[data-theme="dark"] .ant-input-textarea textarea {
+  background-color: var(--color-card-bg);
+  color: var(--color-text);
+}
+
+/* Skeleton dark mode */
+[data-theme="dark"] .ant-skeleton-content .ant-skeleton-title,
+[data-theme="dark"] .ant-skeleton-content .ant-skeleton-paragraph > li {
+  background: linear-gradient(90deg, var(--color-card-bg) 25%, var(--color-background-secondary) 37%, var(--color-card-bg) 63%);
+  background-size: 400% 100%;
+  background-color: var(--color-background-secondary);
+}
+
+/* Divider dark mode */
+[data-theme="dark"] .ant-divider {
+  border-color: var(--color-border);
+}
+
+/* Button dark mode */
+[data-theme="dark"] .ant-btn-default {
+  background-color: var(--color-card-bg);
+  border-color: var(--color-border);
+  color: var(--color-text);
 }
 
 ::-webkit-scrollbar {
@@ -103,12 +240,12 @@ button:hover, .ant-btn:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: var(--color-border);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #aaa;
+  background: var(--color-text-muted);
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,7 +1,8 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { ConfigProvider, App as AntdApp, Spin } from 'antd'
 import { AuthProvider } from './contexts/AuthContext'
+import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import Layout from './components/Layout'
 import AdminLayout from './pages/admin/AdminLayout'
 
@@ -28,25 +29,46 @@ const LazyPage = ({ children }: { children: React.ReactNode }) => (
   <Suspense fallback={<PageLoader />}>{children}</Suspense>
 )
 
-const theme = {
-  token: {
-    colorPrimary: '#4F46E5',
-    borderRadius: 8,
-    fontFamily: "'Quicksand', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif",
-    colorSuccess: '#22C55E',
-    colorError: '#EF4444',
-    colorWarning: '#F59E0B',
-    colorBgContainer: '#FFFEF9',
-    colorBgElevated: '#FFFFFF',
-    colorBorder: '#E7E5E0',
-    colorText: '#3C3A39',
-    colorTextSecondary: '#78716C',
-  },
+function AntdThemeProvider({ children }: { children: React.ReactNode }) {
+  const { theme } = useTheme()
+  
+  const antdTheme = useMemo(() => ({
+    token: {
+      colorPrimary: '#4F46E5',
+      borderRadius: 8,
+      fontFamily: "'Quicksand', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif",
+      colorSuccess: '#22C55E',
+      colorError: '#EF4444',
+      colorWarning: '#F59E0B',
+      ...(theme === 'dark' 
+        ? {
+            colorBgContainer: '#27272A',
+            colorBgElevated: '#27272A',
+            colorBorder: '#3F3F46',
+            colorText: '#E4E4E7',
+            colorTextSecondary: '#A1A1AA',
+          }
+        : {
+            colorBgContainer: '#FFFEF9',
+            colorBgElevated: '#FFFFFF',
+            colorBorder: '#E7E5E0',
+            colorText: '#3C3A39',
+            colorTextSecondary: '#78716C',
+          }
+      ),
+    },
+  }), [theme])
+
+  return (
+    <ConfigProvider theme={antdTheme}>
+      {children}
+    </ConfigProvider>
+  )
 }
 
-function App() {
+function AppContent() {
   return (
-    <ConfigProvider theme={theme}>
+    <AntdThemeProvider>
       <AntdApp>
         <AuthProvider>
           <BrowserRouter>
@@ -75,7 +97,15 @@ function App() {
           </BrowserRouter>
         </AuthProvider>
       </AntdApp>
-    </ConfigProvider>
+    </AntdThemeProvider>
+  )
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 
