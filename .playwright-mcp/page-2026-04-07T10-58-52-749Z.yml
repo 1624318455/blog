@@ -1,0 +1,43 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "✍️ 我的博客" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: ✍️
+        - text: 我的博客
+      - generic [ref=e9]:
+        - menu [ref=e11]:
+          - menuitem "home 首页" [ref=e12] [cursor=pointer]:
+            - img "home" [ref=e13]:
+              - img [ref=e14]
+            - link "首页" [ref=e17]:
+              - /url: /
+          - menuitem "folder React" [ref=e18] [cursor=pointer]:
+            - img "folder" [ref=e19]:
+              - img [ref=e20]
+            - link "React" [ref=e23]:
+              - /url: /category/react
+          - menuitem "folder TypeScript" [ref=e24] [cursor=pointer]:
+            - img "folder" [ref=e25]:
+              - img [ref=e26]
+            - link "TypeScript" [ref=e29]:
+              - /url: /category/typescript
+          - menuitem "user 关于" [ref=e30] [cursor=pointer]:
+            - img "user" [ref=e31]:
+              - img [ref=e32]
+            - link "关于" [ref=e35]:
+              - /url: /about
+          - menuitem:
+            - img:
+              - img
+        - button "login 登录" [ref=e36] [cursor=pointer]:
+          - img "login" [ref=e38]:
+            - img [ref=e39]
+          - generic [ref=e41]: 登录
+        - button "moon" [ref=e42] [cursor=pointer]:
+          - img "moon" [ref=e44]:
+            - img [ref=e45]
+  - main [ref=e47]
+  - contentinfo [ref=e56]:
+    - generic [ref=e57]: © 2024 我的博客 · 用 ❤️ 和代码构建
+    - generic [ref=e58]: Built with React + Vite + Ant Design · 后端 Express + MySQL
