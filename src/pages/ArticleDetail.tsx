@@ -7,6 +7,14 @@ import { articleApi } from '../api/auth'
 import TwikooComment from '../components/TwikooComment'
 import ArticleToc from '../components/ArticleToc'
 
+const renderer = new marked.Renderer()
+renderer.heading = function({ text, depth }: { text: string, depth: number }) {
+  const id = text.toLowerCase().replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, '-').replace(/-+/g, '-')
+  return `<h${depth} id="${id}">${text}</h${depth}>`
+}
+
+marked.setOptions({ renderer })
+
 const { Title, Text } = Typography
 
 interface Article {
