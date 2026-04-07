@@ -22,7 +22,7 @@ export default function TwikooComment({ path }: TwikooProps) {
         twikoo.init({
           el: containerRef.current!,
           path: path,
-          envId: 'https://twikoo-demo-5g1a.vercel.app',
+          envId: import.meta.env.VITE_TWIKOO_ENV || 'https://twikoo-demo-5g1a.vercel.app',
           lang: 'zh-CN',
         })
         clearTimeout(timer)
