@@ -168,7 +168,7 @@ export default function ArticleDetail() {
         </Title>
 
         {/* 元信息 */}
-        <div style={{ display: 'flex', gap: 20, color: '#888', fontSize: 14, marginBottom: 30 }}>
+        <div style={{ display: 'flex', gap: 20, color: 'var(--color-text-muted)', fontSize: 14, marginBottom: 30, flexWrap: 'wrap' }}>
           <span>
             <UserOutlined style={{ marginRight: 6 }} />
             <Link to={`/user/${encodeURIComponent(article.author_name)}`}>
@@ -183,6 +183,9 @@ export default function ArticleDetail() {
             <EyeOutlined style={{ marginRight: 6 }} />
             {article.views?.toLocaleString() || 0} 次阅读
           </span>
+          <span>
+            ⏱️ {Math.max(1, Math.ceil((article.content?.length || 500) / 1000))} 分钟阅读
+          </span>
         </div>
 
         <Divider />
@@ -191,7 +194,7 @@ export default function ArticleDetail() {
         <div className="markdown-body" style={{ 
           lineHeight: 1.8,
           fontSize: 15,
-          color: '#333',
+          color: 'var(--color-text)',
         }}>
           <style>{`
             .markdown-body h2 {
@@ -200,7 +203,7 @@ export default function ArticleDetail() {
               margin-top: 32px;
               margin-bottom: 16px;
               padding-top: 8px;
-              border-top: 1px solid #f0f0f0;
+              border-top: 1px solid var(--color-border);
             }
             .markdown-body h3 {
               font-size: 18px;
@@ -272,9 +275,40 @@ export default function ArticleDetail() {
         <Divider />
 
         {/* 返回按钮 */}
-        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/')}>
-          返回首页
-        </Button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/')}>
+            返回首页
+          </Button>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Button 
+              icon={<span>🔗</span>} 
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                message.success('链接已复制到剪贴板');
+              }}
+            >
+              复制链接
+            </Button>
+            <Button 
+              icon={<span>📤</span>}
+              onClick={() => {
+                const shareData = {
+                  title: article.title,
+                  text: article.excerpt,
+                  url: window.location.href
+                };
+                if (navigator.share) {
+                  navigator.share(shareData).catch(() => {});
+                } else {
+                  navigator.clipboard.writeText(window.location.href);
+                  message.success('链接已复制到剪贴板');
+                }
+              }}
+            >
+              分享
+            </Button>
+          </div>
+        </div>
       </Card>
 
       {/* 评论区 */}
