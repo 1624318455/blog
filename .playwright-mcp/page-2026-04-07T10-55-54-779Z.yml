@@ -1,0 +1,238 @@
+- generic [ref=e4]:
+  - banner [ref=e5]:
+    - generic [ref=e6]:
+      - link "✍️ 我的博客" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: ✍️
+        - text: 我的博客
+      - generic [ref=e9]:
+        - menu [ref=e11]:
+          - menuitem "home 首页" [ref=e12] [cursor=pointer]:
+            - img "home" [ref=e13]:
+              - img [ref=e14]
+            - link "首页" [ref=e17]:
+              - /url: /
+          - menuitem "folder React" [ref=e18] [cursor=pointer]:
+            - img "folder" [ref=e19]:
+              - img [ref=e20]
+            - link "React" [ref=e23]:
+              - /url: /category/react
+          - menuitem "folder TypeScript" [ref=e24] [cursor=pointer]:
+            - img "folder" [ref=e25]:
+              - img [ref=e26]
+            - link "TypeScript" [ref=e29]:
+              - /url: /category/typescript
+          - menuitem "user 关于" [ref=e30] [cursor=pointer]:
+            - img "user" [ref=e31]:
+              - img [ref=e32]
+            - link "关于" [ref=e35]:
+              - /url: /about
+          - menuitem [disabled]:
+            - img:
+              - img
+        - button "login 登录" [ref=e36] [cursor=pointer]:
+          - img "login" [ref=e38]:
+            - img [ref=e39]
+          - generic [ref=e41]: 登录
+        - button "sun" [ref=e250] [cursor=pointer]:
+          - img "sun" [ref=e251]:
+            - img [ref=e252]
+  - main [ref=e47]:
+    - generic [ref=e257]:
+      - navigation [ref=e258]:
+        - list [ref=e259]:
+          - listitem [ref=e260]:
+            - link "首页" [ref=e262] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e263]: /
+          - listitem [ref=e264]:
+            - link "automation" [ref=e266] [cursor=pointer]:
+              - /url: /category/automation
+          - listitem [ref=e267]: /
+          - listitem [ref=e268]: 打造个人开发知识管理系统：定时备份与飞书通知实战
+      - generic [ref=e269]:
+        - generic [ref=e272]:
+          - generic [ref=e273]:
+            - generic [ref=e274]: automation
+            - generic [ref=e275]: feishu
+            - generic [ref=e276]: github
+            - generic [ref=e277]: backup
+            - generic [ref=e278]: windows
+          - heading "打造个人开发知识管理系统：定时备份与飞书通知实战" [level=1] [ref=e279]
+          - generic [ref=e280]:
+            - generic [ref=e281]:
+              - img "user" [ref=e282]:
+                - img [ref=e283]
+              - link "memeflyfly" [ref=e285] [cursor=pointer]:
+                - /url: /user/memeflyfly
+            - generic [ref=e286]:
+              - img "calendar" [ref=e287]:
+                - img [ref=e288]
+              - text: 2026-04-05
+            - generic [ref=e290]:
+              - img "eye" [ref=e291]:
+                - img [ref=e292]
+              - text: 30 次阅读
+            - generic [ref=e294]: ⏱️ 3 分钟阅读
+          - separator [ref=e295]
+          - generic [ref=e297]:
+            - heading "打造个人开发知识管理系统：定时备份与飞书通知实战" [level=1] [ref=e298]
+            - blockquote [ref=e299]:
+              - paragraph [ref=e300]: 本文记录了如何构建一个完整的开发配置与知识管理自动化系统，包括每日自动备份、飞书实时通知、以及技术沉淀的自动发布流程。
+            - heading "背景" [level=2] [ref=e301]
+            - paragraph [ref=e302]: 作为一名开发者，我们日常使用 OpenCode 进行 AI 辅助编程，积累了大量的配置信息（AGENTS.md）和项目经验（memory.md）。这些内容如果丢失，将是巨大的损失。
+            - paragraph [ref=e303]: 因此，我构建了一套自动化系统来实现：
+            - list [ref=e304]:
+              - listitem [ref=e305]: 每日自动备份全局配置和项目文件到 GitHub
+              - listitem [ref=e306]: 任务执行状态实时推送到飞书群
+              - listitem [ref=e307]: 将项目中的经验总结自动发布到技术博客
+            - heading "系统架构" [level=2] [ref=e308]
+            - code [ref=e310]: ┌─────────────────────────────────────────────────────────────┐ │ 每日 18:00 定时触发 │ └─────────────────────────────────────────────────────────────┘ │ ▼ ┌─────────────────────────────────────────────────────────────┐ │ Windows Task Scheduler │ │ ┌─────────────────┐ ┌──────────────────┐ ┌─────────────┐ │ │ │ backup-global │ │ backup-projects │ │ publish- │ │ │ │ .ps1 │ │ .ps1 │ │ summary.ps1 │ │ │ └─────────────────┘ └──────────────────┘ └─────────────┘ │ └─────────────────────────────────────────────────────────────┘ │ ┌───────────────────┼───────────────────┐ ▼ ▼ ▼ ┌──────────────────┐ ┌──────────────┐ ┌─────────────────┐ │ GitHub 仓库 │ │ 飞书机器人 │ │ Blog 草稿 │ │ opencode-backup │ │ Detroit │ │ daily-summary │ └──────────────────┘ └──────────────┘ └─────────────────┘
+            - heading "核心实现" [level=2] [ref=e311]
+            - heading "1. PowerShell 备份脚本" [level=3] [ref=e312]
+            - paragraph [ref=e313]: 以全局配置备份为例，核心代码如下：
+            - code [ref=e315]: "# 飞书通知函数 function Send-FeishuMessage { param(\\$text) $env:LARK_CLI_NO_PROXY = \"1\" npx -y @larksuite/cli im +messages-send --chat-id $CHAT_ID --text $text } # 开始时发送通知 Send-FeishuMessage -text \"📦 开始执行全局配置备份任务...\" # 执行备份逻辑 # ... git clone, copy files, commit, push ... # 完成时发送通知 $successMsg = \"✅ 全局配置备份完成！\" Send-FeishuMessage -text $successMsg"
+            - heading "2. Windows 定时任务" [level=3] [ref=e316]
+            - paragraph [ref=e317]:
+              - text: 使用
+              - code [ref=e318]: schtasks
+              - text: 创建每日定时任务：
+            - code [ref=e320]: "# 创建全局备份任务 schtasks /Create /F /TN \"OpenCode\\\\opencode-daily-backup-global\" \\\\ /TR \"powershell.exe -ExecutionPolicy Bypass -File D:\\\\Work\\\\ForAI\\\\scripts\\\\backup-global.ps1\" \\\\ /SC DAILY /ST 18:00"
+            - heading "3. 飞书消息效果" [level=3] [ref=e321]
+            - paragraph [ref=e322]: 任务执行时会在"Detroit家人群"收到如下消息：
+            - code [ref=e324]: "📦 开始执行全局配置备份任务... 时间: 2026-04-05 18:00 ✅ 全局AGENTS.md 已备份 ✅ 全局memory.md 已备份 ✅ 提交成功 ✅ 已推送到 GitHub 完成时间: 2026-04-05 18:00:30"
+            - heading "关键经验总结" [level=2] [ref=e325]
+            - heading "1. 代理环境处理" [level=3] [ref=e326]
+            - paragraph [ref=e327]: 飞书 CLI 在有代理的环境下可能出现问题，解决方法：
+            - code [ref=e329]: "$env:LARK_CLI_NO_PROXY = \"1\" # 禁用代理"
+            - heading "2. opencode-scheduler 的局限性" [level=3] [ref=e330]
+            - list [ref=e331]:
+              - listitem [ref=e332]:
+                - text: 在 Windows 上使用
+                - code [ref=e333]: schedule_job
+                - text: 工具创建的任务会失败
+              - listitem [ref=e334]:
+                - text: 解决方案：直接使用
+                - code [ref=e335]: schtasks
+                - text: 创建 Windows 原生任务
+            - heading "3. 备份仓库策略" [level=3] [ref=e336]
+            - list [ref=e337]:
+              - listitem [ref=e338]: 创建私有仓库避免敏感信息泄露
+              - listitem [ref=e339]:
+                - text: 使用
+                - code [ref=e340]: gh auth
+                - text: 登录后直接推送，无需每次输入凭据
+            - heading "技术栈" [level=2] [ref=e341]
+            - table [ref=e342]:
+              - rowgroup [ref=e343]:
+                - row "组件 用途" [ref=e344]:
+                  - columnheader "组件" [ref=e345]
+                  - columnheader "用途" [ref=e346]
+              - rowgroup [ref=e347]:
+                - row "Windows Task Scheduler 定时触发任务" [ref=e348]:
+                  - cell "Windows Task Scheduler" [ref=e349]
+                  - cell "定时触发任务" [ref=e350]
+                - row "PowerShell 脚本逻辑执行" [ref=e351]:
+                  - cell "PowerShell" [ref=e352]
+                  - cell "脚本逻辑执行" [ref=e353]
+                - row "Git + GitHub 配置版本化管理" [ref=e354]:
+                  - cell "Git + GitHub" [ref=e355]
+                  - cell "配置版本化管理" [ref=e356]
+                - row "飞书 CLI 消息通知机器人" [ref=e357]:
+                  - cell "飞书 CLI" [ref=e358]
+                  - cell "消息通知机器人" [ref=e359]
+                - row "OpenCode AI 编程辅助" [ref=e360]:
+                  - cell "OpenCode" [ref=e361]
+                  - cell "AI 编程辅助" [ref=e362]
+            - heading "总结" [level=2] [ref=e363]
+            - paragraph [ref=e364]: 这套系统实现了：
+            - list [ref=e365]:
+              - listitem [ref=e366]:
+                - strong [ref=e367]: 零丢失
+                - text: ：每日自动备份，配置和经验永不丢失
+              - listitem [ref=e368]:
+                - strong [ref=e369]: 实时感知
+                - text: ：任务状态实时推送，不错过任何执行结果
+              - listitem [ref=e370]:
+                - strong [ref=e371]: 知识沉淀
+                - text: ：经验总结自动提取，形成技术文章
+            - paragraph [ref=e372]: 希望这个方案能给有类似需求的开发者一些参考。如果你也有更好的实现方式，欢迎交流探讨！
+            - separator [ref=e373]
+            - paragraph [ref=e374]:
+              - emphasis [ref=e375]: 本文由 AI 辅助编写，自动化系统驱动的知识管理系统
+          - separator [ref=e376]
+          - generic [ref=e377]:
+            - button "arrow-left 返回首页" [ref=e378] [cursor=pointer]:
+              - img "arrow-left" [ref=e380]:
+                - img [ref=e381]
+              - generic [ref=e383]: 返回首页
+            - generic [ref=e384]:
+              - button "🔗 复制链接" [ref=e385] [cursor=pointer]:
+                - generic [ref=e386]: 🔗
+                - generic [ref=e387]: 复制链接
+              - button "📤 分享" [ref=e388] [cursor=pointer]:
+                - generic [ref=e389]: 📤
+                - generic [ref=e390]: 分享
+        - generic [ref=e393]:
+          - generic [ref=e394]: 📑 目录
+          - list [ref=e395]:
+            - listitem [ref=e396]:
+              - link "打造个人开发知识管理系统：定时备份与飞书通知实战" [ref=e397] [cursor=pointer]:
+                - /url: "#打造个人开发知识管理系统-定时备份与飞书通知实战"
+            - listitem [ref=e398]:
+              - link "背景" [ref=e399] [cursor=pointer]:
+                - /url: "#背景"
+            - listitem [ref=e400]:
+              - link "系统架构" [ref=e401] [cursor=pointer]:
+                - /url: "#系统架构"
+            - listitem [ref=e402]:
+              - link "核心实现" [ref=e403] [cursor=pointer]:
+                - /url: "#核心实现"
+            - listitem [ref=e404]:
+              - link "1. PowerShell 备份脚本" [ref=e405] [cursor=pointer]:
+                - /url: "#1-powershell-备份脚本"
+            - listitem [ref=e406]:
+              - link "飞书通知函数" [ref=e407] [cursor=pointer]:
+                - /url: "#飞书通知函数"
+            - listitem [ref=e408]:
+              - link "开始时发送通知" [ref=e409] [cursor=pointer]:
+                - /url: "#开始时发送通知"
+            - listitem [ref=e410]:
+              - link "执行备份逻辑" [ref=e411] [cursor=pointer]:
+                - /url: "#执行备份逻辑"
+            - listitem [ref=e412]:
+              - link "... git clone, copy files, commit, push ..." [ref=e413] [cursor=pointer]:
+                - /url: "#-git-clone-copy-files-commit-push-"
+            - listitem [ref=e414]:
+              - link "完成时发送通知" [ref=e415] [cursor=pointer]:
+                - /url: "#完成时发送通知"
+            - listitem [ref=e416]:
+              - link "2. Windows 定时任务" [ref=e417] [cursor=pointer]:
+                - /url: "#2-windows-定时任务"
+            - listitem [ref=e418]:
+              - link "创建全局备份任务" [ref=e419] [cursor=pointer]:
+                - /url: "#创建全局备份任务"
+            - listitem [ref=e420]:
+              - link "3. 飞书消息效果" [ref=e421] [cursor=pointer]:
+                - /url: "#3-飞书消息效果"
+            - listitem [ref=e422]:
+              - link "关键经验总结" [ref=e423] [cursor=pointer]:
+                - /url: "#关键经验总结"
+            - listitem [ref=e424]:
+              - link "1. 代理环境处理" [ref=e425] [cursor=pointer]:
+                - /url: "#1-代理环境处理"
+            - listitem [ref=e426]:
+              - link "2. opencode-scheduler 的局限性" [ref=e427] [cursor=pointer]:
+                - /url: "#2-opencode-scheduler-的局限性"
+            - listitem [ref=e428]:
+              - link "3. 备份仓库策略" [ref=e429] [cursor=pointer]:
+                - /url: "#3-备份仓库策略"
+            - listitem [ref=e430]:
+              - link "技术栈" [ref=e431] [cursor=pointer]:
+                - /url: "#技术栈"
+            - listitem [ref=e432]:
+              - link "总结" [ref=e433] [cursor=pointer]:
+                - /url: "#总结"
+  - contentinfo [ref=e56]:
+    - generic [ref=e57]: © 2024 我的博客 · 用 ❤️ 和代码构建
+    - generic [ref=e58]: Built with React + Vite + Ant Design · 后端 Express + MySQL

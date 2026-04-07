@@ -13,10 +13,9 @@ export default function WalineComment({ path }: WalineProps) {
     
     const initWaline = async () => {
       try {
-        // @ts-ignore
-        const Waline = (await import('@waline/client')).default
+        const Waline = await import('@waline/client')
         
-        new Waline({
+        Waline.init({
           el: containerRef.current!,
           path: path,
           serverURL: 'https://waline-demo-gray.vercel.app',
@@ -24,7 +23,6 @@ export default function WalineComment({ path }: WalineProps) {
           dark: document.documentElement.getAttribute('data-theme') === 'dark',
           pageSize: 10,
           requiredMeta: ['nick'],
-          login: 'optional',
         })
         initialized.current = true
       } catch (e) {
