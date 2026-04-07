@@ -89,7 +89,12 @@ export default function ArticleToc({ content }: ArticleTocProps) {
               href={`#${item.id}`}
               onClick={(e) => {
                 e.preventDefault()
-                document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth' })
+                const target = document.getElementById(item.id)
+                if (target) {
+                  const headerHeight = 60 // Header 高度 + 一些边距
+                  const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight
+                  window.scrollTo({ top: targetPosition, behavior: 'smooth' })
+                }
                 setActiveId(item.id)
               }}
               style={{
