@@ -373,3 +373,102 @@ fetch('/api/admin/articles/6', {
 - API 返回内容长度：2871 字符
 - 检查关键字符串："技术栈"、"总结"是否存在
 - 直接查看数据库 articles 表 content 字段
+
+---
+
+## 优化工作 2026-04-07: 全面项目优化
+
+### 完成的优化项
+
+#### 1. UX改进 - 用户体验优化
+- **配色更新**：将 Ant Design 默认蓝色 (#1890ff) 更新为 Tavily 风格的靛蓝色 (#4F46E5)
+- **背景色**：从白色切换为温暖的米白色 (#FEFCF5)
+- **加载骨架屏**：Home 和 ArticleDetail 页面添加了 Skeleton 组件
+- **错误状态组件**：添加 ErrorState 组件，提供"点击重试"功能
+- **空状态优化**：使用 Ant Design Empty 组件，提供更友好的提示
+
+#### 2. SEO优化 - 搜索引擎优化
+- **index.html**：添加完整的 meta 标签
+  - title, description, keywords, author
+  - Open Graph (og:type, og:title, og:description, og:url)
+  - Twitter Card
+  - JSON-LD Structured Data (Schema.org)
+- **robots.txt**：允许爬虫访问
+- **sitemap.xml**：生成站点地图，包含所有页面和文章
+
+#### 3. 性能优化 - 加载速度提升
+- **路由懒加载**：使用 React.lazy() 动态导入页面组件
+- **代码分割**：每个页面独立 chunk，按需加载
+- **加载指示器**：添加 PageLoader 组件，显示 Spin 加载动画
+
+#### 4. 安全增强 - API 防护
+- **Rate Limiting**：在 api/index.js 中添加简单的内存速率限制器
+  - 登录接口：每分钟 10 次
+  - 注册接口：每分钟 5 次
+  - 邮箱注册：每分钟 3 次
+  - 评论接口：每分钟 20 次
+  - 默认：每分钟 60 次
+
+#### 5. 测试框架搭建
+- **Vitest**：安装并配置 Vitest 测试框架
+- **React Testing Library**：添加组件测试支持
+- **测试用例**：tests/basic.test.tsx 包含 4 个基础测试
+- **运行命令**：`npm test` 或 `npm run test`
+
+### 修改文件清单
+
+| 文件 | 变更内容 |
+|------|----------|
+| index.html | 添加 meta 标签、Open Graph、JSON-LD |
+| public/robots.txt | 新增 |
+| public/sitemap.xml | 新增 |
+| src/App.tsx | 路由懒加载 |
+| src/index.css | Tavily 配色变量 |
+| src/components/Layout.tsx | 配色更新 |
+| src/pages/Home.tsx | 骨架屏、错误处理 |
+| src/pages/ArticleDetail.tsx | 配色更新 |
+| src/pages/About.tsx | 配色更新 |
+| api/index.js | Rate limiting 中间件 |
+| package.json | 添加 test 脚本 |
+| vitest.config.ts | 新增 |
+| tests/setup.ts | 新增 |
+| tests/basic.test.tsx | 新增 |
+
+### 验证方法
+
+1. **前端验证**
+   - 打开首页，检查标题和描述是否正确
+   - 登录后检查 toast 消息
+   - 访问管理后台检查功能
+
+2. **SEO 验证**
+   - 查看页面源码确认 meta 标签
+   - 访问 /robots.txt 和 /sitemap.xml
+
+3. **性能验证**
+   - 构建项目，检查 chunk 大小
+   - Network 面板查看加载时间
+
+4. **安全验证**
+   - 快速连续请求登录接口，验证是否返回 429
+
+5. **测试验证**
+   - `npm test` 运行测试
+
+---
+
+## 工具经验 2026-04-07: Playwright vs Chrome CDP
+
+### Playwright MCP
+- 路径：`C:\Users\memeflyfly\AppData\Local\ms-playwright\mcp-chrome-e3776ac\Default`
+- 每次启动创建临时 profile，登录状态不保留
+- 可在 opencode.json 中配置 `--user-data-dir` 使用固定 profile
+
+### Chrome CDP
+- 路径：`C:\Users\memeflyfly\chrome-debug-profile`
+- 使用固定 profile，登录状态持久化
+- 需要手动启动 Chrome：`--remote-debugging-port=9222`
+
+### 推荐
+- 需要登录状态保留的场景使用 chrome-cdp
+- 快速测试场景使用 Playwright MCP
