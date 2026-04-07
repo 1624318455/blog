@@ -7,14 +7,21 @@ import {
 const { Title, Paragraph } = Typography
 
 const skills = [
-  'React / Vue / Angular',
+  'React 18',
   'TypeScript',
+  'Vite',
+  'Ant Design 5',
+  'React Router',
+  'Marked',
+  'Express',
   'Node.js',
-  'Vite / Webpack',
-  'Ant Design',
-  'Tailwind CSS',
+  'JWT',
+  'MySQL',
+  'Vercel',
+  'Netlify',
+  'Twikoo',
+  'MongoDB Atlas',
   'Git',
-  'Docker',
 ]
 
 export default function About() {
@@ -81,16 +88,30 @@ export default function About() {
                 key={s}
                 style={{
                   padding: '6px 16px',
-                  background: '#f0f0f0',
+                  background: 'var(--color-background-secondary)',
                   borderRadius: 20,
                   fontSize: 14,
-                  color: '#333',
+                  color: 'var(--color-text)',
                 }}
               >
                 {s}
               </span>
             ))}
           </div>
+        </div>
+
+        <Divider />
+
+        {/* 站点技术 */}
+        <div style={{ marginBottom: 32 }}>
+          <Title level={4} style={{ marginBottom: 14 }}>
+            🌐 站点技术
+          </Title>
+          <Paragraph style={{ fontSize: 15, lineHeight: 2 }}>
+            前端采用 React + TypeScript + Vite + Ant Design 构建，支持暗黑模式切换。
+            后端使用 Express + JWT 实现用户认证，数据库为 MySQL。
+            评论系统使用 Twikoo + MongoDB Atlas，部署在 Vercel 和 Netlify 上。
+          </Paragraph>
         </div>
 
         <Divider />
@@ -104,12 +125,12 @@ export default function About() {
             <GithubOutlined style={{ marginRight: 8, color: '#333' }} />
             GitHub:{' '}
             <a
-              href="https://github.com"
+              href="https://github.com/1624318455/blog"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: '#1890ff' }}
             >
-              github.com
+              github.com/1624318455/blog
             </a>
           </Paragraph>
           <Paragraph style={{ fontSize: 15 }}>

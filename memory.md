@@ -472,3 +472,107 @@ fetch('/api/admin/articles/6', {
 ### 推荐
 - 需要登录状态保留的场景使用 chrome-cdp
 - 快速测试场景使用 Playwright MCP
+
+---
+
+## 方法论 2026-04-07: 评论系统选型与部署
+
+### 背景
+为博客添加评论功能，经历了 Waline → Twikoo 的切换
+
+### 选择标准
+| 因素 | Waline | Twikoo |
+|------|--------|--------|
+| Vercel 部署 | ✅ | ✅ |
+| Netlify 部署 | ❌ | ✅ |
+| 中国访问速度 | 慢 | 快（Netlify）|
+| 免费额度 | Demo 限制 | 125K/月 |
+| 邮件功能 | ✅ | ❌（HF限制）|
+| 文档 | 中文 | 中文 |
+
+### 最终选择
+**Twikoo + Netlify + MongoDB Atlas**
+
+### 部署流程
+1. **MongoDB Atlas**
+   - 注册账号，创建免费集群（Free Tier）
+   - Database Access：创建用户和密码
+   - Network Access：添加 `0.0.0.0/0` 允许所有 IP
+
+2. **Netlify 部署**
+   - Fork https://github.com/twikoojs/twikoo-netlify
+   - 添加环境变量 `MONGODB_URI`
+   - 域名：https://blog-mongodb-twikoo-netlify.netlify.app
+
+3. **前端集成**
+   - 安装 `twikoo` npm 包
+   - 创建 TwikooComment 组件
+   - 配置 envId
+
+### 常见问题
+
+#### 1. bad auth 认证失败
+- **原因**：数据库用户名或密码错误
+- **解决**：检查 Database Access 中的用户密码
+
+#### 2. CORS 错误
+- **原因**：Demo 服务器限制跨域
+- **解决**：部署自己的服务
+
+#### 3. Network Access 限制
+- **原因**：MongoDB 未允许外部访问
+- **解决**：添加 `0.0.0.0/0` 到 Network Access
+
+### 经验总结
+1. **选型**：先评估是否需要自建服务，demo 服务器不适合生产
+2. **部署**：Netlify 免费额度更适合中国用户访问
+3. **数据库**：MongoDB Atlas 免费套餐够用，注意 Network Access 配置
+
+---
+
+## 经验 2026-04-07: 博客新功能实现
+
+### 功能清单
+
+#### 1. 暗黑模式 (Dark Mode)
+- **实现**：ThemeContext + localStorage 持久化
+- **特性**：支持系统偏好检测、手动切换
+- **文件**：src/contexts/ThemeContext.tsx
+- **CSS 变量**：在 index.css 中定义 --color-* 系列变量
+
+#### 2. 阅读时间
+- **计算**：Math.ceil(content.length / 1000) 分钟
+- **显示**：文章详情页元信息区域
+
+#### 3. 分享按钮
+- **功能**：复制链接 + Web Share API
+- **位置**：文章底部工具栏
+
+#### 4. 文章目录 (TOC)
+- **组件**：ArticleToc.tsx
+- **功能**：解析 Markdown h2/h3 标题，右侧 sticky 显示
+- **交互**：点击跳转 + Intersection Observer 高亮
+
+#### 5. Twikoo 评论系统
+- **部署**：Netlify + MongoDB Atlas
+- **URL**：https://blog-mongodb-twikoo-netlify.netlify.app/.netlify/functions/twikoo
+
+### 文件变更
+
+| 文件 | 变更 |
+|------|------|
+| src/contexts/ThemeContext.tsx | 新增 |
+| src/index.css | CSS 变量 |
+| src/components/Layout.tsx | 主题切换按钮 |
+| src/components/ArticleToc.tsx | 新增 |
+| src/components/TwikooComment.tsx | 新增 |
+| src/pages/ArticleDetail.tsx | 集成新功能 |
+| src/pages/About.tsx | 更新技术栈 |
+
+### 部署信息更新
+
+| 服务 | URL |
+|------|-----|
+| 前端 (Vercel) | https://blog-8lq8jv4h6-memeflyflys-projects.vercel.app |
+| 评论服务 (Netlify) | https://blog-mongodb-twikoo-netlify.netlify.app |
+| 数据库 (MongoDB) | MongoDB Atlas Cluster01 |
