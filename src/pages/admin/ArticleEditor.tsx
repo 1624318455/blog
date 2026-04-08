@@ -570,9 +570,11 @@ export default function ArticleEditor() {
           <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
             <div style={{ flex: 1 }}>
               <Text type="secondary" style={{ fontSize: 12, marginBottom: 8, display: 'block' }}>编辑</Text>
+              {renderEditor()}
             </div>
             <div style={{ flex: 1 }}>
               <Text type="secondary" style={{ fontSize: 12, marginBottom: 8, display: 'block' }}>预览</Text>
+              {renderPreview()}
             </div>
           </div>
         )}
