@@ -91,7 +91,7 @@ export default function ArticleToc({ content }: ArticleTocProps) {
                 e.preventDefault()
                 const target = document.getElementById(item.id)
                 if (target) {
-                  const headerHeight = 100 // Header 高度 + 边距
+                  const headerHeight = 60 // Header 高度
                   const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight
                   window.scrollTo({ top: targetPosition, behavior: 'smooth' })
                 }
