@@ -555,12 +555,12 @@ export default function ArticleEditor() {
             </div>
           }
         >
-          <div style={{ display: viewMode === 'preview' ? 'none' : 'block' }}>
+          <div style={{ display: viewMode === 'preview' || viewMode === 'split' ? 'none' : 'block' }}>
             {renderEditor()}
           </div>
         </Form.Item>
 
-        {viewMode === 'preview' && (
+        {viewMode === 'preview' && !isEdit && (
           <Form.Item label="预览">
             {renderPreview()}
           </Form.Item>
